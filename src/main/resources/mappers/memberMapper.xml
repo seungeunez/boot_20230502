@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--여기서 param 못씀-->
+<mapper namespace="com.example.mapper.MemberMapper"> 
+    <insert id="insertMemberOne" parameterType="Member">
+        INSERT INTO member( id, password, name, age, role )
+		VALUES ( #{id}, #{password}, #{name}, #{age}, #{role} )
+    </insert>
+    
+    <select id="selectMemberOne" parameterType="com.example.dto.Member" resultType="com.example.dto.Member">
+        SELECT id, name, age, role FROM member WHERE id=#{id} AND password=#{password}
+    </select>
+
+    <update id="updateMemberOne" parameterType="com.example.dto.Member">
+        
+    </update>
+
+
+    
+</mapper>

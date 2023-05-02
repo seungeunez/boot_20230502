@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--여기서 param 못씀-->
+<mapper namespace="com.example.mapper.ItemMapper"> 
+
+    <select id="selectItemImageOne" parameterType="long" resultType="ItemImage">
+        SELECT * FROM itemimage WHERE no=#{no}
+    </select>
+
+    <select id="selectItemImageNo" parameterType="long" resultType="long">
+        SELECT no FROM itemimage WHERE itemno=#{itemno}
+    </select>
+
+    <select id="selectItemList" resultType="Item">
+        SELECT * FROM item ORDER BY no DESC
+    </select>
+
+
+    <insert id="insertItemImageOne" parameterType="ItemImage">
+        INSERT INTO itemimage (filename, filedata, filetype, filesize, itemno) 
+        VALUES (#{filename}, #{filedata}, #{filetype}, #{filesize}, #{itemno})
+    </insert>
+
+    <!--물품 일괄 등록-->
+    <insert id="insertItemBatch" parameterType="list"> <!--반환타입이 없음--> <!--숫자인건 '' 굳이 안해줘도 됨-->
+        INSERT INTO item(no, name, content, price, quantity, seller)
+        SELECT SEQ_ITEM_NO.NEXTVAL, T1.* FROM(
+            <foreach item="obj" collection="list" separator=" UNION ALL ">
+                SELECT '${obj.name}' NAME, '${obj.content}' CONTENT, ${obj.price} PRICE, 
+                ${obj.quantity} QUANTITY, '${obj.seller}' SELLER FROM DUAL
+            </foreach>
+        ) T1
+    </insert>
+
+    <!--판매자가 오면 해당물품 반환 (물품일괄 등록?)-->
+    <select id="selectItemSellerList" parameterType="string" resultType="com.example.dto.Item"> <!--java.lang.String -> string // 반환할때만 resultType 사용-->
+        SELECT * FROM item WHERE SELLER=#{seller} ORDER BY no DESC
+    </select>
+
+    <!--물품 일괄 삭제-->
+    <delete id="deleteItemBatch" parameterType="arraylist"> <!--배열로 잡혀있어서 array임-->
+        DELETE FROM item WHERE no IN (
+            <foreach collection="array" item="tmp" separator=" , ">
+                #{tmp}
+            </foreach>
+        )
+    </delete>
+
+    <!--물품번호에 해당하는 항목 반환 (수정)-->
+    <select id="selectItemNoList" parameterType="arraylist" resultType="com.example.dto.Item">
+        <foreach collection="array" item="tmp" separator=" , " open=" SELECT * FROM item WHERE no IN( " close=" ) "> <!-- 삭제랑 똑같음 그냥 open에 넣냐 안넣냐 차이?-->
+                #{tmp}
+        </foreach>
+    </select>
+
+
+    <!--물품 일괄 수정-->
+    <update id="updateItemBatch" parameterType="list">
+        UPDATE item SET 
+            name = (CASE
+                <foreach collection="list" item="obj" separator=" "> 
+                    WHEN NO=#{obj.no} THEN #{obj.name}
+                </foreach>
+            END),
+            content = (CASE
+                <foreach collection="list" item="obj" separator=" "> 
+                    WHEN NO=#{obj.no} THEN #{obj.content}
+                </foreach>
+            END),
+            price = (CASE
+                <foreach collection="list" item="obj" separator=" "> 
+                    WHEN NO=#{obj.no} THEN #{obj.price}
+                </foreach>
+            END),
+            quantity = (CASE
+                <foreach collection="list" item="obj" separator=" "> 
+                    WHEN NO=#{obj.no} THEN #{obj.quantity}
+                </foreach>
+            END)
+        WHERE no IN(
+            <foreach collection="list" item="obj" separator=" , "> 
+                #{obj.no}
+            </foreach>
+        )
+    </update>
+
+</mapper>

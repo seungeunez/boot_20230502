@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>홈화면</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' th:href="@{css/bootstrap.min.css}" />
+    
+</head>
+<body>
+    <h3>홈화면</h3>
+
+    <a th:href="@{/board/insert.do}">게시판 글쓰기</a>
+
+    <div th:if="${session.USERID == null}">
+        <a th:href="@{/member/login.do}">로그인</a>
+        <a th:href="@{/member/join.do}">회원가입</a>
+    </div>
+
+    <div th:if="${session.USERID != null}">
+        <p th:text="|${session.USERNAME} 님 로그인|"></p>
+        <a th:href="@{/member/logout.do}">로그아웃</a>
+
+        <a th:href="@{/member/update.do}">정보수정</a>
+        <a th:href="@{/member/delete.do}">회원탈퇴</a>
+
+        <div th:if="${#strings.equals(session.ROLE, 'seller')}">
+            <a th:href="@{/seller/home.do}">판매자홈</a>
+        </div>
+    </div>
+</body>
+</html>
