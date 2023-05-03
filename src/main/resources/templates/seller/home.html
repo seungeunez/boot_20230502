@@ -12,8 +12,8 @@
     <a th:href="@{/seller/home.do(menu=1)}">물품일괄추가</a>
     <a th:href="@{/seller/home.do(menu=2)}">물품관리(일괄수정, 일괄삭제)</a>
     <a th:href="@{/seller/home.do(menu=3)}">주문관리</a>
-
-    <a th:href="@{/member/login.do}">로그인</a>
+    <a th:href="@{/home.do}">홈</a>
+    <a th:href="@{/login.do}">로그인</a>
     <hr />
 
     <div th:if="${#strings.equals(param.menu, '1')}">

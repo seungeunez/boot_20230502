@@ -8,6 +8,7 @@
 		VALUES ( #{id}, #{password}, #{name}, #{age}, #{role} )
     </insert>
     
+    <!---->
     <select id="selectMemberOne" parameterType="com.example.dto.Member" resultType="com.example.dto.Member">
         SELECT id, name, age, role FROM member WHERE id=#{id} AND password=#{password}
     </select>
@@ -16,6 +17,10 @@
         
     </update>
 
+    <!--시큐리티 때문에 만들었음-->
+    <select id="selectMemberOne1" parameterType="String" resultType="com.example.dto.Member">
+        SELECT * FROM member WHERE id=#{id}
+    </select>
 
     
 </mapper>

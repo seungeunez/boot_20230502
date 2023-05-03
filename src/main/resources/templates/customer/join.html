@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입-고객용</title>
+</head>
+<body>
+    <h3>회원가입(고객)</h3>
+    <hr /> 
+    <form th:action="@{/customer/join.do}" method="post">
+        아이디 <input type="text" name="id" autofocus /> <br />
+        암호 <input type="text" name="password" /> <br />
+        이름 <input type="text" name="name" /> <br />
+        나이 <input type="number" name="age" /> <br />
+        권한 <input type="text" name="role" value="customer" readonly/> <br /><!--어차피 고객용이니 자동으로 빠지게 해뒀음 변경 안됨 원래는 디폴트로 넣어지니깐 굳이 없어도 됨-->
+        <input type="submit" value="회원가입" /><br />
+    </form>
+</body>
+</html>

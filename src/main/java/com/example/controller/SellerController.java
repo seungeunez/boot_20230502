@@ -5,15 +5,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Item;
+import com.example.dto.Member;
 import com.example.mapper.ItemMapper;
+import com.example.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +33,11 @@ public class SellerController {
     //매퍼 객체 생성
     final ItemMapper iMapper; // 매퍼객체
 
+    final MemberMapper memberMapper;
+
     final HttpSession httpSession; //세션객체
+
+    final String format = "SellerController => {}";
 
     //http://127.0.0.1:9090/ROOT/seller/home.do
     @GetMapping(value = "/home.do")
@@ -148,4 +157,44 @@ public class SellerController {
         int ret = iMapper.updateItemBatch(list);
         return "redirect:/seller/home.do?menu=2";
     }
+
+    /*------------------------ */
+
+    //회원가입 화면
+    @GetMapping(value = "/join.do")
+    public String joinGET(){
+        return "/seller/join";
+    }
+
+    @PostMapping(value = "/join.do")
+    public String joinPOST(@ModelAttribute Member member ){
+        log.info(format, member.toString()); //화면에 정확하게 표시되고 사용자가 입력한 항목을 member 객체에 저장했음
+
+        BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); //salt값을 자동으로 부여함 (이게 뭐누..)
+        
+        member.setPassword(bcpe.encode(member.getPassword())); //기존암호를 암호화 시켜서 다시 저장함.
+
+        int ret = memberMapper.insertMemberOne(member);
+
+        if(ret == 1){
+            return "redirect:home.do";//주소창에 127.0.0.1:9090/ROOT/seller/home.do입력 후 엔터키를 자동화시키는 것
+        } 
+        return "redirect:join.do";  //실패시 그자리 그대로
+    }
+
+    /*----------------------- */
+
+    //로그아웃
+    //GET, POST가 같은 동작을 함.
+    @RequestMapping(value="/logout.do", method = {RequestMethod.GET, RequestMethod.POST}) //RequestMapping을 이용해서 method로 GET POST 방식을 구별하는 건 번거롭기때문에 @PostMapping @GetMapping 방식을 씀
+    public String logoutPOST() {
+        httpSession.invalidate(); // 세션의 정보를 다 지움.
+        return "redirect:/home.do";
+    }
+
+    /*-------------------------- */
+
+    
+
+
 }

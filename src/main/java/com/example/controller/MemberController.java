@@ -49,7 +49,7 @@ public class MemberController {
 
     @GetMapping(value="/login.do")
     public String loginGET() {
-        return "/member/login";
+        return "login";
     }
     
     @PostMapping(value="/login.do")
@@ -57,7 +57,7 @@ public class MemberController {
         log.info("login.do => {}", member.toString()); // view에서 잘전송되었는지
         Member ret = mMapper.selectMemberOne(member); //로그인한 사용자의 정보 반환
         if(ret != null) {
-            log.info("login1.do => {}", ret.toString()); 
+            log.info("login.do => {}", ret.toString()); 
             // 세션에 2개의 정보 아이디와 이름, 권한 추가하기 ( 기본시간 30분 )
             // 다른페이지에서 세션의 아이디가 존재하는지 확인후 로그인 여부 판단
             httpSession.setAttribute("USERID", ret.getId());
