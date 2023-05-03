@@ -84,13 +84,15 @@ public class CustomerController {
                         @RequestParam Member member, Model model ) {
 
 
-        log.info("CustomerController => {}", menu);
+        log.info(format, menu);
 
         if(menu == 1){
 
             member.setId(user.getUsername());
         
             memberMapper.updateMemberOne(member);
+
+            log.info("CustomerControllerUpdate => {}", member.toString());
 
             return "redirect:/customer/home.do?menu=1";
 
@@ -136,6 +138,8 @@ public class CustomerController {
                     
                 }
 
+                return "redirect:/customer/home.do?menu=3";
+            }else{
                 return "redirect:/customer/home.do?menu=3";
             }
             
