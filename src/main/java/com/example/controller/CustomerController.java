@@ -1,17 +1,29 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Member;
 import com.example.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 
 
@@ -22,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomerController {
 
     final String format = "CustomerController => {}";
+    final HttpSession httpSession; 
     final MemberMapper memberMapper;
 
 /*-----------------------------------------------------------------*/
@@ -66,9 +79,68 @@ public class CustomerController {
 
 /*-----------------------------------------------------------------*/
 
+    @PostMapping(value="/home.do")
+    public String homePOST( @RequestParam(name="menu", required = false) int menu, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal User user, 	
+                        @RequestParam Member member, Model model ) {
 
+
+        log.info("CustomerController => {}", menu);
+
+        if(menu == 1){
+
+            member.setId(user.getUsername());
+        
+            memberMapper.updateMemberOne(member);
+
+            return "redirect:/customer/home.do?menu=1";
+
+        }else if(menu == 2){
+            
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
+            //아이디 정보를 이용해서 DB에서 1명 조회
+            Member obj = memberMapper.selectMemberOne1(user.getUsername());
+
+            //조회된 정보의 아이디와 사용자가 입력한 아이디를 matches로 비교
+            //비밀번호 확인 => matches(바꾸기전 비번, 해시된 비번)
+            if(bcpe.matches(member.getPassword(), obj.getPassword())){
+
+                member.setId(user.getUsername());
+                member.setNewpassword(bcpe.encode(member.getNewpassword()));
+                memberMapper.updatePW(member);
+
+                log.info("CustomerController updatPW =>  {}", member.toString());
+
+            } return "redirect:/customer/home.do?menu=2";
+
+        }else if(menu == 3){
+
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
+            //아이디 정보를 이용해서 DB에서 1명 조회
+            Member obj = memberMapper.selectMemberOne1(user.getUsername());
+
+            
+            //조회된 정보와 현재 암호가 일치하는지 matches로 비교
+            if(bcpe.matches(member.getPassword(), obj.getPassword())){
+            //비교가 true 이면 DB에서 삭제 후 로그아웃
+                memberMapper.deleteMemberOne(member);
+                
+                //컨트롤러에서 logout처리하기
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                
+                log.info("CustomerController => {}", auth.toString());
+
+                if(auth != null){
+                    new SecurityContextLogoutHandler().logout(request, response, auth);
+                    
+                }
+
+                return "redirect:/customer/home.do?menu=3";
+            }
+            
+        }
+        return "redirect:/customer/home.do";
     
-    
-    
-    
+    }
 }

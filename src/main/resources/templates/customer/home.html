@@ -7,8 +7,41 @@
     <title>홈 페이지</title>
 </head>
 <body>
-    <h3>고객용 홈화면</h3>
-    <hr />
+    <h3>홈</h3>
+    <hr/>
     <a th:href="@{/home.do}">완전 홈</a>
+    <a th:href="@{/customer/home.do(menu=1)}">정보수정(이름/나이)</a>
+    <a th:href="@{/customer/home.do(menu=2)}">비번변경(비번 입력 확인후 변경)</a>
+    <a th:href="@{/customer/home.do(menu=3)}">회원탈퇴(삭제 -> 로그아웃)</a>
+    <form th:action="@{/logout.do}" method="post">
+        <input type="submit" value="로그아웃">
+    </form>
+
+    <hr />
+    <div th:if="${#strings.equals(param.menu, '1')}">
+        <form th:action="@{/customer/home.do(menu=1)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
+            <input type="text" name="name" placeholder="이름" />
+            <input type="number" name="age" placeholder="나이" />
+            <input type="submit" value="변경" />
+        </form>
+        
+
+    </div>
+    <div th:if="${#strings.equals(param.menu, '2')}">
+        <form th:action="@{/customer/home.do(menu=2)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
+            <input type="text" name="password" placeholder="현재 비밀번호"/>
+            <input type="text" name="newpassword" placeholder="새 비밀번호"/>
+            <input type="submit" value="변경" />
+        </form>
+
+    </div>
+    <div th:if="${#strings.equals(param.menu, '3')}">
+        <form th:action="@{/customer/home.do(menu=3)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
+            <input type="text" name="password" placeholder="비밀번호"/>
+            <input type="submit" value="삭제" />
+        </form>
+
+    </div>
+
 </body>
 </html>
