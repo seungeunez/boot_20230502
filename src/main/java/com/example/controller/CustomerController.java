@@ -147,13 +147,13 @@ public class CustomerController {
             //아이디 정보를 이용해서 DB에서 1명 조회
             Member obj = memberMapper.selectMemberOne1(user.getUsername());
             
-            member.setId(user.getUsername());
-
             //조회된 정보와 현재 암호가 일치하는지 matches로 비교
             if(bcpe.matches(member.getPassword(), obj.getPassword())){
 
+                member.setId(user.getUsername());
+
                 //비교가 true 이면 DB에서 삭제 후 로그아웃
-                memberMapper.deleteMemberOne(member);
+                memberMapper.deleteMemberOne(obj);
                 
                 //컨트롤러에서 logout처리하기
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();

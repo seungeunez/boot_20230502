@@ -25,7 +25,7 @@
 
     <!--탈퇴-->
     <delete id="deleteMemberOne" parameterType="com.example.dto.Member">
-        DELETE FROM member WEHRE id=#{id}
+        DELETE FROM member WHERE id=#{id}
     </delete>
 
     <!--시큐리티 때문에 만들었음-->
