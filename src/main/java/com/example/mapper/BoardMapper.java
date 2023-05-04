@@ -34,6 +34,6 @@ public interface BoardMapper {
 	public int deleteBoard(long no);
 
     //조회수 증가
-    public int updateHit(Board board);
+    public int updateHit(long no);
 
 }

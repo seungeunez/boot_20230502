@@ -15,7 +15,7 @@
     </delete>
 
     <!--조회수 증가-->
-    <update id="updateHit" parameterType="com.example.dto.Board">
+    <update id="updateHit" parameterType="long">
         UPDATE board SET hit = hit + 1 WHERE no = #{no}
     </update>
 

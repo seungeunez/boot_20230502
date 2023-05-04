@@ -80,7 +80,7 @@ public class RestBoardController {
     @PutMapping(value = "/updatehit.json")
     public Map<String, Integer> updatehitPUT(@RequestBody Board board){
 
-        int ret = boardMapper.updateHit(board);
+        int ret = boardMapper.updateHit(board.getNo());
 
         Map<String, Integer> retMap = new HashMap<>();
         retMap.put("result", ret); // 0 실패, 1 성공
