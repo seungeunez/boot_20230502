@@ -29,7 +29,8 @@ public class SecuirtyServiceImpl implements UserDetailsService {
 
         if(member != null){ //가져올 정보가 있었다. 존재하는 아이디가 있음
 
-            //Member DTO를 사용해서 처리하나 시큐리티는 User DTO를 사용함
+            //Member DTO를 사용해서 처리하나 시큐리티는 User DTO를 사용함 
+            //session에는 User타입으로 저장됨. 로그인 성공하면 저장되는거임 그래서 id는 user.getUserName()임
             return User.builder()
                     .username(member.getId())
                     .password(member.getPassword())

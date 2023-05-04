@@ -39,14 +39,6 @@ public class CustomerController {
 
 /*-----------------------------------------------------------------*/
 
-    //홈 화면 
-    @GetMapping(value = "/home.do")
-    public String homeGET(){
-        return "/customer/home";
-    }
-
-/*-----------------------------------------------------------------*/
-
     //회원가입 화면
     @GetMapping(value = "/join.do")
     public String joinGET(){
@@ -79,14 +71,32 @@ public class CustomerController {
 
 /*-----------------------------------------------------------------*/
 
+    //홈 화면 
+    @GetMapping(value = "/home.do")
+    public String homeGET(@RequestParam(name = "menu", required = false, defaultValue = "0") int menu,  //menu가 url에 없을 수도 있기때문에 require=false 줬음
+                        @AuthenticationPrincipal User user, Model model){ 
+        
+        if(menu ==1){
+            //세션에서 아이디정보를 꺼내서 mapper에서 조회
+            Member member = memberMapper.selectMemberOne1(user.getUsername());
+            log.info(format, member.toString());
+            model.addAttribute("member", member);
+        }
+        
+        return "/customer/home";
+    }
+
+
+
+    //@AuthenticationPrincipal User user => HttpSession httpSession => httpSession.getAttribute("user"); 와 같은거라고 보면됨
     @PostMapping(value="/home.do")
-    public String homePOST( @RequestParam(name="menu", required = false) int menu, HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal User user, 	
-                        @RequestParam Member member, Model model ) {
+    public String homePOST( @RequestParam(name="menu", required = false) int menu, HttpServletRequest request, HttpServletResponse response, 
+                            @AuthenticationPrincipal User user, @RequestParam Member member, Model model ) {
 
 
         log.info(format, menu);
 
-        if(menu == 1){
+        if(menu == 1){ //회원정보 수정
 
             member.setId(user.getUsername());
         
@@ -96,7 +106,7 @@ public class CustomerController {
 
             return "redirect:/customer/home.do?menu=1";
 
-        }else if(menu == 2){
+        }else if(menu == 2){ //비밀번호 변경
             
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
@@ -147,4 +157,10 @@ public class CustomerController {
         return "redirect:/customer/home.do";
     
     }
+
+/*-----------------------------------------------------------------*/
+
+
+
+
 }

@@ -19,9 +19,12 @@
 
     <hr />
     <div th:if="${#strings.equals(param.menu, '1')}">
-        <form th:action="@{/customer/home.do(menu=1)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
-            <input type="text" name="name" placeholder="이름" />
-            <input type="number" name="age" placeholder="나이" />
+        <form th:action="@{/customer/home.do(menu=1)}" th:object="${member}" method="post"> <!--home.do?menu=1 를 home.do(menu=1) 이렇게 표현할 것--> <!--th:object="${member}"가 있으면 th:field사용해서 미리 입력 가능한 상태로..?-->
+            <input type="text" th:field="${member.name}" name="name" placeholder="이름" />
+            <!-- <input type="number" th:field="${member.age}" name="age" placeholder="나이" /> -->
+            <select th:field="${member.age}" name="age"> <!--체크박스, 라디오도 전부 가능함-->
+                <option th:each="num : ${#numbers.sequence(1, 120)}" th:value="${num}" th:text="${num}" ></option>
+            </select>
             <input type="submit" value="변경" />
         </form>
         
@@ -29,7 +32,7 @@
     </div>
     <div th:if="${#strings.equals(param.menu, '2')}">
         <form th:action="@{/customer/home.do(menu=2)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
-            <input type="text" name="password" placeholder="현재 비밀번호"/>
+            <input type="text"  name="password" placeholder="현재 비밀번호"/>
             <input type="text" name="newpassword" placeholder="새 비밀번호"/>
             <input type="submit" value="변경" />
         </form>
