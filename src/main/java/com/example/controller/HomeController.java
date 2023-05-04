@@ -43,7 +43,7 @@ public class HomeController{
     @GetMapping(value = "/403page.do")
     public String PageGET(){
 
-        return "403page";
+        return "/error/403page";
     }
 
 

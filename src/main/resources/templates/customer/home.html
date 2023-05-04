@@ -18,32 +18,48 @@
     </form>
 
     <hr />
+
+    <!--정보변경-->
     <div th:if="${#strings.equals(param.menu, '1')}">
-        <form th:action="@{/customer/home.do(menu=1)}" th:object="${member}" method="post"> <!--home.do?menu=1 를 home.do(menu=1) 이렇게 표현할 것--> <!--th:object="${member}"가 있으면 th:field사용해서 미리 입력 가능한 상태로..?-->
+
+        <form th:action="@{/customer/home.do(menu=1)}" th:object="${member}" method="post"> <!--home.do?menu=1 를 home.do(menu=1) 이렇게 표현할 것--> <!--th:object="${member}"를 써서 th:field사용하면 미리 입력 가능한 상태로..? 만들어주는 듯 하다 기존의 데이터를 가져와서 자동으로 선택되게 해줌 th:field가 그니께 회원가입보단 정보수정에 적합하다-->
             <input type="text" th:field="${member.name}" name="name" placeholder="이름" />
             <!-- <input type="number" th:field="${member.age}" name="age" placeholder="나이" /> -->
             <select th:field="${member.age}" name="age"> <!--체크박스, 라디오도 전부 가능함-->
-                <option th:each="num : ${#numbers.sequence(1, 120)}" th:value="${num}" th:text="${num}" ></option>
+                <!-- <option value="전송값">화면에 보이는것 여기는 text</option> -->
+                <option th:each="num : ${#numbers.sequence(1, 120)}" th:value="${num}" th:text="|나이 ${num}|" ></option> <!--value는 전송값이고 text는 보여지는 값이기 때문에 text에는 뭘 써도 상관 없음 그게 전송되진 않으니깐-->
             </select>
             <input type="submit" value="변경" />
         </form>
-        
+
+        <hr />
+
+        <!--그냥 어떻게 쓰는지 보기위한용도-->
+        <form th:object="${number}">
+            <input type="checkbox" th:each="tmp : ${checkLabel}" th:text="${tmp}" th:value="${tmp}" th:field="${member.name}" />  <!--체크박스는 여러개 선택 가능함-->
+            <hr/>
+            <input type="radio" th:each="tmp : ${checkLabel}" th:text="${tmp}" th:value="${tmp}" th:field="${member.name}" />  <!--라디오는 하나만 선택되어 있어서 마지막걸로 선택되어있음-->
+        </form> 
 
     </div>
+
+
+    <!--비밀번호 변경-->
     <div th:if="${#strings.equals(param.menu, '2')}">
         <form th:action="@{/customer/home.do(menu=2)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
             <input type="text"  name="password" placeholder="현재 비밀번호"/>
             <input type="text" name="newpassword" placeholder="새 비밀번호"/>
             <input type="submit" value="변경" />
         </form>
-
     </div>
+
+
+    <!--회원탈퇴-->
     <div th:if="${#strings.equals(param.menu, '3')}">
         <form th:action="@{/customer/home.do(menu=3)}" method="post"> <!--아무래도 home.do?menu=1 를 home.do(menu=1) 이렇게 표현해야하는것같음 -->
             <input type="text" name="password" placeholder="비밀번호"/>
             <input type="submit" value="삭제" />
         </form>
-
     </div>
 
 </body>

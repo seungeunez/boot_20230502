@@ -18,16 +18,15 @@
         UPDATE member SET name=#{name}, age=#{age} WHERE id=#{id}
     </update>
 
-    <!--탈퇴-->
-    <delete id="deleteMemberOne" parameterType="com.example.dto.Member">
-        DELETE FROM member WEHRE id=#{id} AND password=#{password}
-    </delete>
-
     <!--비밀번호 변경-->
     <update id="updatePW" parameterType="com.example.dto.Member" >
-        UPDATE member SET password=#{newpassword} WHERE id=#{id} AND password=#{password}
+        UPDATE member SET password=#{newpassword} WHERE id=#{id}
     </update>
 
+    <!--탈퇴-->
+    <delete id="deleteMemberOne" parameterType="com.example.dto.Member">
+        DELETE FROM member WEHRE id=#{id}
+    </delete>
 
     <!--시큐리티 때문에 만들었음-->
     <select id="selectMemberOne1" parameterType="String" resultType="com.example.dto.Member">

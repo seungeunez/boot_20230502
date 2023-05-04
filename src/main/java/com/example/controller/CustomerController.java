@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.dto.CustomUser;
 import com.example.dto.Member;
 import com.example.mapper.MemberMapper;
 
@@ -74,13 +75,21 @@ public class CustomerController {
     //홈 화면 
     @GetMapping(value = "/home.do")
     public String homeGET(@RequestParam(name = "menu", required = false, defaultValue = "0") int menu,  //menu가 url에 없을 수도 있기때문에 require=false 줬음
-                        @AuthenticationPrincipal User user, Model model){ 
+                        @AuthenticationPrincipal User user, Model model){  //get에서만 model이 쓰이는 것 같다
         
         if(menu ==1){
             //세션에서 아이디정보를 꺼내서 mapper에서 조회
             Member member = memberMapper.selectMemberOne1(user.getUsername());
             log.info(format, member.toString());
             model.addAttribute("member", member);
+
+            //체크박스에 표시할 항목들
+            String[] checkLabel = {"vvv", "aaa", "bbb", "vvv", "ccc", "ddd"};
+            model.addAttribute("checkLabel", checkLabel);
+        } else if(menu == 2){
+
+        } else if(menu == 3){
+
         }
         
         return "/customer/home";
@@ -91,20 +100,26 @@ public class CustomerController {
     //@AuthenticationPrincipal User user => HttpSession httpSession => httpSession.getAttribute("user"); 와 같은거라고 보면됨
     @PostMapping(value="/home.do")
     public String homePOST( @RequestParam(name="menu", required = false) int menu, HttpServletRequest request, HttpServletResponse response, 
-                            @AuthenticationPrincipal User user, @RequestParam Member member, Model model ) {
+                            @AuthenticationPrincipal CustomUser user, @ModelAttribute Member member) {
 
-
-        log.info(format, menu);
+        log.info("CustomerController menu=> {}", user.toString());
+        log.info("CustomerController menu=> {}", menu);
 
         if(menu == 1){ //회원정보 수정
 
             member.setId(user.getUsername());
         
-            memberMapper.updateMemberOne(member);
+            int ret = memberMapper.updateMemberOne(member);
 
             log.info("CustomerControllerUpdate => {}", member.toString());
 
-            return "redirect:/customer/home.do?menu=1";
+            if(ret == 1){
+                return "redirect:/customer/home.do?menu=1";
+            }else{
+                log.info("정보 변경 실패");
+                return "redirect:/customer/home.do?menu=1";
+            }
+
 
         }else if(menu == 2){ //비밀번호 변경
             
@@ -125,17 +140,19 @@ public class CustomerController {
 
             } return "redirect:/customer/home.do?menu=2";
 
-        }else if(menu == 3){
+        }else if(menu == 3){ //탈퇴
 
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
             //아이디 정보를 이용해서 DB에서 1명 조회
             Member obj = memberMapper.selectMemberOne1(user.getUsername());
 
-            
             //조회된 정보와 현재 암호가 일치하는지 matches로 비교
             if(bcpe.matches(member.getPassword(), obj.getPassword())){
-            //비교가 true 이면 DB에서 삭제 후 로그아웃
+
+                member.setId(user.getUsername());
+
+                //비교가 true 이면 DB에서 삭제 후 로그아웃
                 memberMapper.deleteMemberOne(member);
                 
                 //컨트롤러에서 logout처리하기
@@ -148,9 +165,12 @@ public class CustomerController {
                     
                 }
 
-                return "redirect:/customer/home.do?menu=3";
+                return "redirect:/home.do";
+
             }else{
+
                 return "redirect:/customer/home.do?menu=3";
+                
             }
             
         }
