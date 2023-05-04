@@ -26,7 +26,7 @@ public interface BoardMapper {
 
     //게시글 수정
     //@Update({" UPDATE board SET title=#{obj.title}, content=#{obj.content} WHERE no=#{obj.no} "}) //SQL문을 여기서 안하고 xml에서 작성
-	public int updateBoard(Board obj); //설계만 여기서하고 SQL문은 xml에서 작성
+	public int updateBoard(Board board); //설계만 여기서하고 SQL문은 xml에서 작성
 
     
     //게시글 삭제

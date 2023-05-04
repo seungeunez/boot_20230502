@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +48,9 @@ public class RestBoardController {
         return retMap;
     }
 
+/* ------------------------------------------ */
+
+
     //전체 게시글 조회
     //조회된 내용을 주세요 => GET임
     //127.0.0.1:9090/ROOT/api/board/selectlist.json
@@ -54,10 +58,10 @@ public class RestBoardController {
     public List<Board> RequestMethodName()  {
         //[{}, {}, {} ... {}] => 리스트 모양 이렇게 생겼음 postman에서도 저렇게 출력 됨
 
-    
-
         return boardMapper.selectBoardList();
     }
+
+/* ------------------------------------------ */
 
     //게시판 글 쓰기 => 제목, 내용, 작성자 => {"title" : "a", "content" : "b", "writer" : "c"}
     //새로운 데이터 추가해주세요 => POST
@@ -75,8 +79,11 @@ public class RestBoardController {
         return retMap;
     }
 
+/* ------------------------------------------ */
+
     //게시글 조회수 증가
     //게시글 번호가 전달되면 update를 이용해서 게시글증가 시키고 결과를 result:1, result:0 전달
+    //127.0.0.1:9090/ROOT/api/board/updatehit.json?no=
     @PutMapping(value = "/updatehit.json")
     public Map<String, Integer> updatehitPUT(@RequestBody Board board){
 
@@ -87,6 +94,39 @@ public class RestBoardController {
         return retMap;
 
     }
+
+/* ------------------------------------------ */
+
+    //게시글 삭제
+    //127.0.0.1:9090/ROOT/api/board/delete.json?no=
+    @DeleteMapping(value = "/delete.json")
+    public Map<String, Integer> deleteDelete(@RequestBody Board board){
+
+
+        int ret = boardMapper.deleteBoard(board.getNo()); 
+
+        Map<String, Integer> retMap = new HashMap<>();
+        retMap.put("result", ret); // 0 실패, 1 성공
+        return retMap;
+    }
+
+/* ------------------------------------------ */
+
+    //게시글 수정
+     //127.0.0.1:9090/ROOT/api/board/update.json
+    @PutMapping(value = "/update.json")
+    public Map<String, Integer> updatePUT(@RequestBody Board board){
+
+
+        int ret = boardMapper.updateBoard(board);
+
+        Map<String, Integer> retMap = new HashMap<>();
+        retMap.put("result", ret); // 0 실패, 1 성공
+        return retMap;
+
+    }
+
+/* ------------------------------------------ */
     
 
 

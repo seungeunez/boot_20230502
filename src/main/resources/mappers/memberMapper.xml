@@ -3,6 +3,8 @@
 
 <!--여기서 param 못씀-->
 <mapper namespace="com.example.mapper.MemberMapper"> 
+
+    <!--회원가입-->
     <insert id="insertMemberOne" parameterType="Member">
         INSERT INTO member( id, password, name, age, role )
 		VALUES ( #{id}, #{password}, #{name}, #{age}, #{role} )
