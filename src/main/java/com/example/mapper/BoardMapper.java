@@ -33,4 +33,7 @@ public interface BoardMapper {
     //SQL문 없이 => xml에서 sql문 작성
 	public int deleteBoard(long no);
 
+    //조회수 증가
+    public int updateHit(Board board);
+
 }

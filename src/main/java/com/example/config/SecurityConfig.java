@@ -71,9 +71,12 @@ public class SecurityConfig {
             .clearAuthentication(true)
             .permitAll();
 
+        //post는 csrf를 전송해야하지만, 주소가 /api로 시작되는 것들은 csrf가 없어도 허용하도록 설정했음 근데 나머지는 안됨
+        http.csrf().ignoringAntMatchers("/api/**");
+
         //이렇게 하고 시큐리티 ServiceImpl 만들어야함 그러고 서비스 등록해줘야함
         //서비스 등록
-        http.userDetailsService(userDetailsService); 
+       // http.userDetailsService(userDetailsService); 
 
         return http.build();
 

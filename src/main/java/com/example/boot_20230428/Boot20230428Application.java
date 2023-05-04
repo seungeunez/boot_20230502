@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @PropertySource(value= {"classpath:global.properties"}) // 직접만든 환경설정파일 위치
 @MapperScan(basePackages = {"com.example.mapper"}) // 매퍼 위치 설정
-@ComponentScan(basePackages = {"com.example.controller", "com.example.service", "com.example.config"}) //컨트롤러, 서비스 위치, 시큐리티환결설정
+@ComponentScan(basePackages = {"com.example.controller", "com.example.service", "com.example.config", "com.example.restcontroller"}) //컨트롤러, 서비스 위치, 시큐리티환결설정, 레스트컨트롤러
 public class Boot20230428Application {
 
 	public static void main(String[] args) {
