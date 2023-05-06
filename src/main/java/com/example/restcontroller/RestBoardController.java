@@ -27,8 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 
-//GET => 조회
-//POST => 추가(글쓰기), 로그인(암호가 있는거)
+// GET => 조회
+// POST => 추가(글쓰기), 로그인(암호가 있는거)
 // DELETE => 삭제
 // PUT => 전체수정, PATCH => 일부수정
 
