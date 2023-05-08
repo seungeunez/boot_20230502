@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>회원목록(member1)</h3>
+    <table>
+        <tbody>
+            <tr th:each="obj : ${list}">
+                <td th:text="${obj.id}"></td>
+                <td th:text="${obj.pw}"></td>
+                <td th:text="${obj.name}"></td>
+                <td th:text="${obj.age}"></td>
+                <td th:text="${obj.regdate}"></td>
+                <td>수정, 삭제</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
