@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "MEMBER1") //생성하고자하는 테이블, 또는 생성되어 있는 테이블 매칭 //Member1 테이블이 됨
+@Table(name = "MEMBER1") //생성하고자하는 테이블, 또는 생성되어 있는 테이블 매칭
 
 //칠판 Repository부분 하는데 먼저 테이블 생성하려고 만들었음 dto느낌
 public class Member1 {

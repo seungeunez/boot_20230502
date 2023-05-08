@@ -123,7 +123,7 @@ public class CustomerController {
 
         }else if(menu == 2){ //비밀번호 변경
             
-            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); //BCryptPasswordEncoder가 encode()와 matches() 가능함
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); //BCryptPasswordEncoder가 encode()와 matches() 가능함 //encode()는 비밀번호 암호화해주는 메서드 // matches()는 
 
             //아이디 정보를 이용해서 DB에서 1명 조회
             Member obj = memberMapper.selectMemberOne1(user.getUsername());
