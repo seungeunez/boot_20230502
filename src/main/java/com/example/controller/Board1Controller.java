@@ -83,7 +83,7 @@ public class Board1Controller {
 
         Board1 board1 = b1Repository.findById(no).orElse(null);
 
-        log.info(format, board1.toString());
+        //log.info(format, board1.toString());
 
         model.addAttribute("board1", board1);
         return "/board1/selectone";

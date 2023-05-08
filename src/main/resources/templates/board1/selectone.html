@@ -32,8 +32,9 @@
     </table>
 
     <hr />
-
+    <h4>답글작성</h4>
     <form th:action="@{/reply1/insert.do}" method="post">
+        <input type="text" name="board1.no" th:value="${board1.no}" /> <br /> <!--해당게시글 번호 no가 저장되면서  뭔소리지  toString을 하나는 막아야한다는 말-->
         <input type="text" name="content" placeholder="답글내용" /> <br />
         <input type="text" name="writer" placeholder="답글작성자" /> <br />
         <input type="submit" value="답글작성" style="margin-top: 4px;" /><br />

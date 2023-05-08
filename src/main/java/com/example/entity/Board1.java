@@ -18,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -43,6 +44,7 @@ public class Board1 {
     @CreationTimestamp
     private Date regdate; //작성일자
 
+    @ToString.Exclude //답글쪽에서 오류가 안나게끔 한쪽은 toString 막아야함
     @OneToMany(mappedBy = "board1") // 1 : n  //여기는 연관관계만 가지는거임 Reply1에서 생성하는거임 외래키~
     List<Reply1> list = new ArrayList<>();
     
