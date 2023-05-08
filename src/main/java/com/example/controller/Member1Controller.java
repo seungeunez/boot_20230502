@@ -66,6 +66,7 @@ public class Member1Controller {
     @GetMapping(value = "selectlist.do")
     public ModelAndView selectListGET(){
 
+        
         List<Member1> list = m1Repository.findAllByOrderByNameDesc();
 
         return new ModelAndView("/member1/selectlist", "list", list); 
@@ -85,7 +86,7 @@ public class Member1Controller {
         }
 
         //페이지 네이션 만들기(페이지 번호 0부터 가져올 개수 10개)
-        PageRequest pageRequest = PageRequest.of(0, 10);
+        //PageRequest pageRequest = PageRequest.of(0, 10); --> 근데 안쓰였음
 
         long total = m1Repository.countByNameContaining(text); //회원 수
 

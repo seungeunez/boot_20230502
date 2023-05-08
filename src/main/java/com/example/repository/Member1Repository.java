@@ -35,9 +35,10 @@ public interface Member1Repository extends JpaRepository<Member1, String>{ //Jpa
 
 
     
-    //mybatis mapper와 같음 #{name} #{start} #{end} == :name :start :end
+    //mybatis mapper와 같음. #{name} #{start} #{end} == :name :start :end
     //nativequery 사용하기
     //페이지 네이션이 안되는 바람에 native 쓰는거임
+    //페이지네이션 + 검색 + 조회 
     @Query(value="SELECT * FROM ( SELECT m1.*, ROW_NUMBER() OVER (ORDER BY name DESC) rown FROM MEMBER1 m1 WHERE m1.name LIKE '%' || :name || '%' ) WHERE rown BETWEEN :start AND :end", nativeQuery=true)
     public List<Member1> selectByNameContainingPagenation(@Param("name") String name, @Param("start") int start, @Param("end") int end );
     
