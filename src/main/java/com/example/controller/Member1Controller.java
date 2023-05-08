@@ -38,7 +38,7 @@ public class Member1Controller {
         
         log.info(format, member1.toString()); //꼭 찍어보자
 
-        //저장소 호출해서 DB에 넣기해야함
+        //저장소 호출해서 DB에 넣기해야함 (mapper, service가 없는데도 들어가짐)
         m1Repository.save(member1); //sql문을 안쓰면 DB종류 상관없이 넘어가니깐 이런점에선 좋음
         
         return "redirect:/member1/join.do";
@@ -55,10 +55,6 @@ public class Member1Controller {
         return new ModelAndView("/member1/selectlist", "list", list); //(return 값, model.attribute 했던 값들 두 개)
 
     }
-
-    
-
-
 
 /* ----------------------------------------------------------------- */
     
