@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보 수정</title>
+</head>
+<body>
+    <h3>회원정보수정(member1)</h3>
+    <form th:action="@{/member1/update.do}" th:object="${member1}" method="post">
+        아이디: <input type="text" th:field="${member1.id}" readonly /><br />
+        암호: <input type="text" th:field="${member1.pw}" readonly/><br />
+        이름: <input type="text" th:field="${member1.name}" /><br />
+        나이: <input type="number" th:field="${member1.age}"/><br />
+        <input type="submit" value="수정">
+    </form>
+</body>
+</html>
