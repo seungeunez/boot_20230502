@@ -8,11 +8,23 @@
 </head>
 <body>
     <h3>회원목록(member1)</h3>
-    <table>
+
+    <form th:action="@{/member1/selectlist.do}" method="get">
+        <input type="text" name="text" placeholder="검색어 입력.." /> <!--주소창에 text="" 뜸-->
+        <input type="hidden" name="page" value="1"/> <!--page 값은 1로 지정해뒀음 page=1로 주소창에 뜸-->
+        <input type="submit" value="검색" />
+    </form>
+
+    <table border="1">
+        <thead>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>나이</th>
+            <th>등록일</th>
+        </thead>
         <tbody>
             <tr th:each="obj : ${list}">
                 <td th:text="${obj.id}"></td>
-                <td th:text="${obj.pw}"></td>
                 <td th:text="${obj.name}"></td>
                 <td th:text="${obj.age}"></td>
                 <td th:text="${obj.regdate}"></td>
@@ -26,5 +38,10 @@
             </tr>
         </tbody>
     </table>
+
+    <th:block th:each="num : ${#numbers.sequence(1, pages)}"> <!--페이지?-->
+        <a th:href="@{/member1/selectlist.do(text=${param.text}, page=${num})}" th:text="${num}"></p>
+    </th>
+
 </body>
 </html>

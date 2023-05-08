@@ -2,7 +2,9 @@ package com.example.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,13 +60,45 @@ public class Member1Controller {
 
 /* ----------------------------------------------------------------- */
 
-    //회원전체조회
+    /* 
+    //그냥 조회만 했을 때 
     //ModelAndView란  model.Attribute + return html 혼합된거라고 생각하면 됨
+    @GetMapping(value = "selectlist.do")
+    public ModelAndView selectListGET(){
+
+        List<Member1> list = m1Repository.findAllByOrderByNameDesc();
+
+        return new ModelAndView("/member1/selectlist", "list", list); 
+    } */
+
+
+    //회원전체조회 + 검색기능 + 페이지네이션
     ////127.0.0.1:9090/ROOT/member1/selectlist.do
     @GetMapping(value = "selectlist.do")
-    public ModelAndView selectListGET(){ // ModelAndView를 쓰면 (Model model) 이렇게 하던거 안한다고 생각하면됨 
-        List<Member1> list = m1Repository.findAllByOrderByNameDesc(); //원랜 .findAll(); 끝이였는데.. SPQL사용 후 => .findAllByOrderByNameDesc() 로 바뀜
-        return new ModelAndView("/member1/selectlist", "list", list); //(return 값, model.attribute 했던 값들 두 개)
+    public String selectListGET(
+                Model model,
+                @RequestParam(name = "text", defaultValue = "", required = false) String text, 
+                @RequestParam(name = "page", defaultValue = "0", required = false) int page){   //@RequestParam 페이지네이션 한다고 쓴거임
+
+        if(page == 0){ //페이지 정보가 없으면 자동으로 page=1로 변경
+            return "redirect:/member1/selectlist.do?text=" + text + "&page=1";
+        }
+
+        //페이지 네이션 만들기(페이지 번호 0부터 가져올 개수 10개)
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        long total = m1Repository.countByNameContaining(text); //회원 수
+
+        //List<Member1> list = m1Repository.findAllByOrderByNameDesc(); //원랜 .findAll(); 끝이였는데.. SPQL사용 후 => .findAllByOrderByNameDesc() 로 바뀜 // 이건 전체 조회용
+        //List<Member1> list = m1Repository.findByNameContainingOrderByNameDesc(text); //이렇게까지하면 전체 조회 및 검색까지 됨 // 페이지네이션은 아직 안됐음
+
+        // 1 페이지 => 1, 10
+        // 2 페이지 => 11, 20
+        List<Member1> list = m1Repository.selectByNameContainingPagenation(text, (page*10)-9, page*10); // 전체조회 + 검색 + 페이지네이션까지 다 됨
+
+        model.addAttribute("list", list);
+        model.addAttribute("pages", (total-1)/10+1); //페이지 수
+        return "/member1/selectlist"; 
 
     }
 
@@ -89,9 +123,9 @@ public class Member1Controller {
 
     //수정
     @GetMapping(value = "/update.do")
-    public ModelAndView updateGET(@RequestParam(name = "id") String id){
+    public ModelAndView updateGET(@RequestParam(name = "id") String id){ // ModelAndView를 쓰면 (Model model) 이렇게 하던거 안한다고 생각하면됨 
         Member1 member1 = m1Repository.findById(id).orElse(null); //null값은 왜 했냐 Optional<Member1>이라고 떠서 뭐.. 궁시렁 궁시렁 null에 대한 처리? null에 대한 처리를 왜 하는데 // 뭔데 그게
-        return new ModelAndView("/member1/update", "member1", member1);
+        return new ModelAndView("/member1/update", "member1", member1); //(return 값, model.attribute 했던 값들 두 개)
     }
 
 
@@ -123,14 +157,11 @@ public class Member1Controller {
             return "redirect:/home.do";
         }
 
-        
-
     }
     
-
 /* ----------------------------------------------------------------- */
 
-    //회원 검색
+
 
 
 
