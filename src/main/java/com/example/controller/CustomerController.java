@@ -123,14 +123,14 @@ public class CustomerController {
 
         }else if(menu == 2){ //비밀번호 변경
             
-            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); //이게 session에서랑 matches 두 개만 사용가능하다던가 그럼
 
             //아이디 정보를 이용해서 DB에서 1명 조회
             Member obj = memberMapper.selectMemberOne1(user.getUsername());
 
             //조회된 정보의 아이디와 사용자가 입력한 아이디를 matches로 비교
             //비밀번호 확인 => matches(바꾸기전 비번, 해시된 비번)
-            if(bcpe.matches(member.getPassword(), obj.getPassword())){
+            if(bcpe.matches(member.getPassword(), obj.getPassword())){ //그래서 원래 있던 비번과 해시된 비번 비교 true면 if문 실행
 
                 member.setId(user.getUsername());
                 member.setNewpassword(bcpe.encode(member.getNewpassword()));
