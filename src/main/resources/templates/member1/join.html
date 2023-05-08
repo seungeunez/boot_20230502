@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - repository 이용</title>
+</head>
+<body>
+    
+    <h3>회원가입(member1)</h3>
+    <form th:action="@{/member1/join.do}" method="post">
+        아이디: <input type="text" name="id" /><br />
+        암호: <input type="text" name="pw" value="a"/><br />
+        이름: <input type="text" name="name" value="이름"/><br />
+        나이: <input type="number" name="age" value="26"/><br />
+        <input type="submit" value="회원가입">
+    </form>
+
+</body>
+</html>
