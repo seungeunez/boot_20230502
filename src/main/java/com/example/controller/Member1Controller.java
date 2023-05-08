@@ -63,7 +63,7 @@ public class Member1Controller {
     ////127.0.0.1:9090/ROOT/member1/selectlist.do
     @GetMapping(value = "selectlist.do")
     public ModelAndView selectListGET(){ // ModelAndView를 쓰면 (Model model) 이렇게 하던거 안한다고 생각하면됨 
-        List<Member1> list = m1Repository.findAll();
+        List<Member1> list = m1Repository.findAllByOrderByNameDesc(); //원랜 .findAll(); 끝이였는데.. SPQL사용 후 => .findAllByOrderByNameDesc() 로 바뀜
         return new ModelAndView("/member1/selectlist", "list", list); //(return 값, model.attribute 했던 값들 두 개)
 
     }
@@ -129,4 +129,10 @@ public class Member1Controller {
     
 
 /* ----------------------------------------------------------------- */
+
+    //회원 검색
+
+
+
+
 }
