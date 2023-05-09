@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -44,8 +47,18 @@ public class Board1 {
     @CreationTimestamp
     private Date regdate; //작성일자
 
+    
+    //답글
     @ToString.Exclude //답글쪽에서 오류가 안나게끔 한쪽은 toString 막아야함
-    @OneToMany(mappedBy = "board1") // 1 : n  //여기는 연관관계만 가지는거임 Reply1에서 생성하는거임 외래키~
+    @OneToMany(mappedBy = "board1", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // 1 : n  //여기는 연관관계만 가지는거임 Reply1에서 생성하는거임 외래키~
+    @OrderBy(value = "no desc")
     List<Reply1> list = new ArrayList<>();
+
+
+    //게시글 이미지
+    @ToString.Exclude
+    @OneToMany(mappedBy = "board1", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // 1 : n  //여기는 연관관계만 가지는거임 Reply1에서 생성하는거임 외래키~
+    @OrderBy(value = "no desc")
+    List<BoardImage1> list1 = new ArrayList<>();
     
 }
