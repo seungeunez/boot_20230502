@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.io.InputStream;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,10 +65,13 @@ public class BoardImage1Controller {
             boardImage1.setImageType(file.getContentType());
             boardImage1.setImageName(file.getOriginalFilename());
             //log.info(format, boardImage1.toString());
+
             
             bi1Repository.save(boardImage1);
 
             return "redirect:/boardimage1/selectlist.do?no=" + boardImage1.getBoard1().getNo(); //첫 등록일 땐 get 해서 불러 오는듯 //수정, 삭제와는 다르다
+
+            
 
         } catch (Exception e) {
 
@@ -74,6 +79,7 @@ public class BoardImage1Controller {
             return "redirect:/home.do";
 
         }
+        
     }
 
     
