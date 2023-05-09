@@ -53,6 +53,7 @@ public class BoardImage1 {
     private Date regdate;
 
     //외래키(게시글 번호)
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BRDNO", referencedColumnName = "NO")
     private Board1 board1;

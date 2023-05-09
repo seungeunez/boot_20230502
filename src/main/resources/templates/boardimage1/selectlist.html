@@ -10,15 +10,20 @@
     <h3>이미지 목록</h3>
     <hr />
 
-    <a th:href="@{/board1/selectlist.do}"><button>게시글 목록</button></a> <br /
-    >
+    <a th:href="@{/board1/selectlist.do}"><button>게시글 목록</button></a> <br />
     대표이미지(가장먼저 등록한 이미지) <br />
+    <img th:src="@{/board1/selectlist.do?no( board1.no=${tmp} )}" style="width:50px;height:50px" /> <br />
+    
+
     글 번호: <label th:text="${board1.no}"></label> <br />
     글 제목: <label th:text="${board1.title}"></label>
 
     <hr />
 
-    글 번호에 해당하는 이미지 출력
+    글 번호에 해당하는 이미지 출력 <br/>
+    <div th:each="tmp : ${board1.no}" style="display:inline-block">
+        <img th:src="@{/board1/selectlist.do?no( board1.no=${tmp} )}" style="width:50px;height:50px" />
+    </div>
 
     <hr />
 
