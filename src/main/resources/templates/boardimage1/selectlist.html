@@ -12,7 +12,7 @@
 
     <a th:href="@{/board1/selectlist.do}"><button>게시글 목록</button></a> <br />
     대표이미지(가장먼저 등록한 이미지) <br />
-    <img th:src="@{/board1/selectlist.do?no( board1.no=${tmp} )}" style="width:50px;height:50px" /> <br />
+    <img th:src="${board1.imageUrl}" style="width:150px;height:150px" /> <br />
     
 
     글 번호: <label th:text="${board1.no}"></label> <br />
@@ -21,8 +21,8 @@
     <hr />
 
     글 번호에 해당하는 이미지 출력 <br/>
-    <div th:each="tmp : ${board1.no}" style="display:inline-block">
-        <img th:src="@{/board1/selectlist.do?no( board1.no=${tmp} )}" style="width:50px;height:50px" />
+    <div th:each="tmp : ${imageList}" style="display:inline-block">
+        <img th:src="${tmp}" style="width:150px;height:150px" />
     </div>
 
     <hr />

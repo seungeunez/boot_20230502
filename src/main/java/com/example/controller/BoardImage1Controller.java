@@ -2,7 +2,10 @@ package com.example.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -47,28 +50,42 @@ public class BoardImage1Controller {
 
     //이미지 목록
     @GetMapping(value="/selectlist.do")
-    public String selectListGET(@RequestParam(name = "no") long no, Model model) {
+    public String selectListGET(@RequestParam(name = "no") long no, Model model, HttpServletRequest request) {
 
         try {
 
             //게시글 정보
             Board1 board1 = b1Repository.findById(no).orElse(null);
-            model.addAttribute("board1", board1);
-
             
+
+
             /* -------------------------대표이미지 추가됐음---------------------------- */
             BoardImage1 image1 = bi1Repository.findTop1ByBoard1_noOrderByNoAsc(no);
+            board1.setImageUrl(request.getContextPath() + "/boardimage1/image?no=0");
             if(image1 != null){
+                board1.setImageUrl(request.getContextPath() + "/boardimage1/image?no=" + image1.getNo());
                 log.info(format, image1.toString());
             }
             /* ------------------------------------------------------------------------- */
 
+            //이미지도 포함하여 view로 전달
+            model.addAttribute("board1", board1);
 
             /* -------------------------전체이미지 추가됐음---------------------------- */
+
+            List<String> imageList = new ArrayList<>();
             List<BoardImage1> list1 = bi1Repository.findByBoard1_noOrderByNoAsc(no);
             if(!list1.isEmpty()){ //리스트가 비어있지 않는지 확인
-                log.info(format, list1.toString());
+
+                for(BoardImage1 tmp : list1) {
+                    imageList.add(request.getContextPath() + "/boardimage1/image?no=" + tmp.getNo());
+                }
+                
+                //log.info(format, list1.toString());
             }
+
+            model.addAttribute("imageList", imageList);
+
             /* ------------------------------------------------------------------------- */
 
             return "/boardimage1/selectlist";
