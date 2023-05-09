@@ -18,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -42,6 +43,7 @@ public class BoardImage1 {
 
     //이미지 데이터
     @Lob //blob - byte[] ,  clob - String 롸?
+    @ToString.Exclude //길어서 출력이 안되는바람에 뺐음
     private byte[] imageData;
 
     //이미지 등록일
