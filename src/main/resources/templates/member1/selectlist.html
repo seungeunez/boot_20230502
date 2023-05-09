@@ -9,13 +9,15 @@
 <body>
     <h3>회원목록(member1)</h3>
 
+    <a th:href="@{/member1/join.do}"><button>회원가입</button></a>
+
     <form th:action="@{/member1/selectlist.do}" method="get">
         <input type="text" name="text" placeholder="검색어 입력.." /> <!--주소창에 text="" 뜸-->
         <input type="hidden" name="page" value="1"/> <!--page 값은 1로 지정해뒀음 page=1로 주소창에 뜸-->
         <input type="submit" value="검색" />
     </form>
 
-    <table border="1">
+    <table border="1" style="margin-top: 5px;">
         <thead>
             <th>아이디</th>
             <th>이름</th>
@@ -29,11 +31,12 @@
                 <td th:text="${obj.age}"></td>
                 <td th:text="${obj.regdate}"></td>
                 <td>
-                    <a th:href="@{/member1/update.do(id=${obj.id})}">수정</a>
-                    <form th:action="@{/member1/delete.do}" method="post">
+                    <a th:href="@{/member1/update.do(id=${obj.id})}"><button>수정</button></a>
+                    <form th:action="@{/member1/delete.do}" method="post" style="display: inline-block;">
                         <input type="hidden" name="id" th:value="${obj.id}" />
                         <input type="submit" value="삭제" />
                     </form>
+                    <a th:href="@{/address1/selectlist.do(id=${obj.id})}"><button>주소</button></a>
                 </td>
             </tr>
         </tbody>

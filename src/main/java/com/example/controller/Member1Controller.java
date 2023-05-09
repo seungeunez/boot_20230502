@@ -47,11 +47,11 @@ public class Member1Controller {
             //저장소 호출해서 DB에 넣기해야함 (mapper, service가 없는데도 들어가짐)
             m1Repository.save(member1); //sql문을 안쓰면 DB종류 상관없이 넘어가니깐 이런점에선 좋음
             
-            return "redirect:/member1/join.do";
+            return "redirect:/member1/selectlist.do";
             
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "redirect:/member1/join.do";
         }
         
         

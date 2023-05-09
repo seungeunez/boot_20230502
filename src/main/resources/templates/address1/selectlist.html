@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주소목록</title>
+</head>
+<body>
+    
+    <h3>주소목록</h3>
+    <a th:href="@{/member1/selectlist.do}"><button>회원목록</button></a>
+    <hr />
+
+    회원아이디: <label th:text="${obj.id}"></label><br />
+    회원이름: <label th:text="${obj.name}"></label><br />
+    <hr />
+
+    <h4>주소목록</h4>
+    <table border="1" style="margin-top: 4px;">
+
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>우편번호</th>
+                <th>주소</th>
+                <th>날짜</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr th:each="tmp : ${address}">  <!--${obj.list}-->
+                <td th:text="${tmp.no}"></td>
+                <td th:text="${tmp.postcode}"></td>
+                <td th:text="${tmp.address}"></td>
+                <td th:text="${tmp.regdate}"></td>
+                <td>
+                    <form th:action="@{/address1/delete.do}" method="post">
+                        <input type="text" name="id1" th:value="${obj.id}" /> <!--주소창에 id가 있어서 id도 받아와야함-->
+                        <input type="text" name="no1" th:value="${tmp.no}" />
+                        <input type="submit" value="삭제" />
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <!--페이지 네이션 부분-->
+    <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+        <a th:href="@{/address1/selectlist.do(id=${param.id}, page=${num})}" th:text="${num}"></a>
+    </th:block>
+
+    <hr />
+
+    <h4>주소등록</h4>
+    <form th:action="@{/address1/insert.do}" method="post">
+        <input type="text" name="member1.id" th:value="${obj.id}" readonly /><br />
+        <input type="text" name="postcode" placeholder="우편번호"/><br />
+        <input type="text" name="address" placeholder="주소" /><br />
+        <input type="submit" value="주소등록" style="margin-top: 3px;"/>
+    </form>
+
+</body>
+</html>
