@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전체목록</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
 </head>
 <body>
     <h3>전체목록(board2)</h3>
@@ -14,6 +15,8 @@
     <button th:onclick="formAction1(2)">일괄삭제</button>
 
     <hr />
+
+    
 
     <!--검색어 입력-->
     <form th:action="@{/board2/selectlist.pknu}" method="get">
@@ -53,6 +56,8 @@
             </tbody>
         </table>
     </form>
+
+
     
 
     <script th:inline="javascript" type="text/javascript">
