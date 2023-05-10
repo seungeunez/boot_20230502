@@ -44,12 +44,19 @@ public class Board1ViewController {
                 list = b1vRepository.findByNoOrTitleOrderByNoDesc(board1View.getNo(), board1View.getTitle()); //글 번호, 제목 둘 중 하나 이상 일치하는 것만 조회
 
             } else if(num == 3){  
+
+                log.info(" no1 => {}",no1.toString());
+
                 String[] arr = no1.split(","); //split은 문자열 분할이라서
+
                 List<Long> obj = new ArrayList<>();
 
                 for(int i=0; i<arr.length; i++){
-                    obj.add(Long.parseLong(arr[i]));
+                    obj.add(Long.parseLong(arr[i])); // add()는 리스트의 가장 끝에 값을 추가함
                 }
+
+                log.info("obj => {}",obj.toString());
+
                 list = b1vRepository.findByNoInOrderByNoDesc(obj);
                 
 
@@ -65,9 +72,13 @@ public class Board1ViewController {
                 list = b1vRepository.findByTitleInOrderByNoDesc(obj);
 
 
-            }else {
+            }
+
+            if(num == 0){ //0이거나 공백일 때 전체조회
                 list = b1vRepository.findAllByOrderByNoDesc();
             }
+            
+            
             
 
             model.addAttribute("list", list);
