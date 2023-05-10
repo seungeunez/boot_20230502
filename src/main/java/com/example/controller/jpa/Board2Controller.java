@@ -35,16 +35,40 @@ public class Board2Controller {
 
     //전체 목록
     //127.0.0.1:9090/ROOT/board2/selectlist.pknu
+    //1. 전달값 받기 ?page=&type=writer&text=이름
     @GetMapping(value = "/selectlist.pknu")
-    public String selectListGET(Model model){
+    public String selectListGET(Model model, 
+                            @RequestParam(name = "text", defaultValue = "") String text, 
+                            @RequestParam(name = "page", defaultValue = "1") int page,
+                            @RequestParam(name = "type", defaultValue = "title") String type ){
 
         try {
 
-            List<Board> list = bRepository.findAllByOrderByNoDesc();
 
-            //log.info(format, list.toString());
+            /* 게시글 수 */
+            long total = bRepository.countByTitleContaining(text);
+            
+            /* -----검색------- */
+
+            //2. 타입에 따라서 다른 메소드 호출
+
+            List<Board> list = bRepository.findByTitleIgnoreCaseContainingOrderByNoDesc(text);
+            if(type.equals("content")){
+                list = bRepository.findByContentIgnoreCaseContainingOrderByNoDesc(text);
+            }else if(type.equals("writer")){
+                list = bRepository.findByWriterIgnoreCaseContainingOrderByNoDesc(text);
+            }
+
+            /* -------------- */
+
+
+
+
+            //List<Board> list = bRepository.findAllByOrderByNoDesc(); //목록 전체 조회만 했을 때
 
             model.addAttribute("list", list);
+            model.addAttribute("pages", (total-1)/10+1); 
+            
             return "/board2/selectlist";
 
         } catch (Exception e) {
@@ -147,7 +171,6 @@ public class Board2Controller {
 
     }
 
-    
     @PostMapping(value = "/updatebatch.pknu")
     public String updateBatchPOST(@RequestParam(name = "chk[]") List<BigDecimal> chk){ 
 
@@ -164,6 +187,7 @@ public class Board2Controller {
     }
 
 
+    //진짜 수정
     @PostMapping(value="/updatebatchaction.pknu")
     public String updatebatchactionPOST(
             @RequestParam(name = "no[]") long[] no, 
@@ -203,6 +227,7 @@ public class Board2Controller {
             
 
 /* ------------------------------------------------ */
+    
 
     
 }

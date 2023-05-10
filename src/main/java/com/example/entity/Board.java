@@ -45,4 +45,5 @@ public class Board {
     @CreationTimestamp
     private Date regdate; //작성일자
 
+
 }

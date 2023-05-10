@@ -8,12 +8,26 @@
 </head>
 <body>
     <h3>전체목록(board2)</h3>
-    <hr />
 
     <a th:href="@{/board2/insertbatch.pknu}"><button>일괄추가</button></a>
-    <button th:onclick="formAction1(1)">일괄수정</button>
+    <button th:onclick="formAction1(1)">일괄수정</button> <!--이상하게도 formAction으로 하면 안됨 1이 붙으니깐 또 되는건 뭔..-->
     <button th:onclick="formAction1(2)">일괄삭제</button>
 
+    <hr />
+
+    <!--검색어 입력-->
+    <form th:action="@{/board2/selectlist.pknu}" method="get">
+        <input type="hidden" name="page" value="1" />
+        <select name="type">
+            <option value="title" name="title">제목</option>
+            <option value="content" name="content">내용</option>
+            <option value="writer" name="writer">작성자</option>
+        </select>
+        <input type="text" name="text" placeholder="검색어 입력.." />
+        <input type="submit" value="검색" />
+    </form>
+
+    <!--목록-->
     <form th:action="@{/board2/updatebatch.pknu}" method="post" id="form">
         <table border="1" style="margin-top: 4px;">
             <thead>
