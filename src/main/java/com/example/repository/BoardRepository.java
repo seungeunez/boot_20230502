@@ -31,8 +31,7 @@ public interface BoardRepository extends JpaRepository<Board, BigDecimal> {
     public List<Board> findByContentIgnoreCaseContainingOrderByNoDesc(String content);
 
 
-    //총 개수
-    public long countByTitleContaining(String title); 
+    
 
     //페이지네이션
 
@@ -42,6 +41,14 @@ public interface BoardRepository extends JpaRepository<Board, BigDecimal> {
 
     // public List<Board> findByContentIgnoreCaseContainingOrderByNoDesc(String content, Pageable pageable);
 
+
+    //총 개수
+    public long countByTitleIgnoreCaseContainingOrderByNoDesc(String title); 
+
+    public long countByWriterIgnoreCaseContainingOrderByNoDesc(String writer, Pageable pageable);
+
+    public long countByContentIgnoreCaseContainingOrderByNoDesc(String content, Pageable pageable);
+    
 
     @Query(value="SELECT * FROM ( SELECT b1.*, ROW_NUMBER() OVER (ORDER BY no DESC) rown FROM BOARD b1 WHERE b1.title LIKE '%' || :title || '%' ) WHERE rown BETWEEN :start AND :end", nativeQuery=true)
     public List<Board> selectByTitleContainingPagenation(@Param("title") String title, @Param("start") int start, @Param("end") int end );
