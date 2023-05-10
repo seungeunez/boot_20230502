@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 목록</title>
+</head>
+<body>
+    <h3>게시판 목록</h3>
+
+
+    <form th:action="@{/board1view/selectlist.pknu}" method="get">
+        <input type="text" name="num" value="0" readonly/>
+        <input type="submit" value="전체조회" />
+    </form>
+    <hr />
+
+    <form th:action="@{/board1View/selectlist.pknu}" method="get">
+        <input type="text" name="num" value="1" readonly />
+        <input type="number" name="no1" placeholder="글번호입력" />
+        <input type="text" name="title1" placeholder="제목입력" />
+        <input type="submit" value="글 번호와 제목이 정확하게 일치하는 것만 조회" />
+    </form>
+
+    <hr />
+
+    <form th:action="@{/board1View/selectlist.pknu}" method="get">
+        <input type="text" name="num" value="2" readonly />
+        <input type="text" name="no1" placeholder="글 번호 입력">
+        <input type="text" name="title1" placeholder="제목 입력">
+        <input type="submit" value="글 번호 제목 둘 중 하나이상 일치하는 것만 조회">
+    </form>
+    <hr />
+
+    <form th:action="@{/board1View/selectlist.pknu}" method="get">
+        <input type="text" name="num" value="3" readonly />
+        <input type="text" name="no1" placeholder="글 번호를 ,로 구분해서 입력">
+        <input type="submit" value="글 번호에 해당하는 항목만 조회">
+    </form>
+
+    <hr />
+
+    <form th:action="@{/board1View/selectlist.pknu}" method="get">
+        <input type="text" name="num" value="4" readonly />
+        <input type="text" name="title1" placeholder="제목을 ,로 구분해서 입력">
+        <input type="submit" value="제목에 해당하는 항목만 조회">
+    </form>
+
+    <hr />
+
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <td>글번호</td>
+                <td>글제목</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each = "obj : ${list}">
+                <td th:text="${obj.no}"></td>
+                <td th:text="${obj.title}"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+</html>
