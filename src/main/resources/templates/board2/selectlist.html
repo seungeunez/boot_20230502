@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체목록</title>
+</head>
+<body>
+    <h3>전체목록(board2)</h3>
+    <hr />
+
+    <a th:href="@{/board2/insertbatch.pknu}"><button>일괄추가</button></a>
+    <button th:onclick="formAction1(1)">일괄수정</button>
+    <button th:onclick="formAction1(2)">일괄삭제</button>
+
+    <form th:action="@{/board2/updatebatch.pknu}" method="post" id="form">
+        <table border="1" style="margin-top: 4px;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>작성일자</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="obj : ${list}">
+                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"></td>
+                    <td th:text="${obj.no.longValue()}"></td> <!--longValue() 숫자 E+1 이렇게 안나오게 하려고 씀-->
+                    <td th:text="${obj.title}"></td>
+                    <td th:text="${obj.writer}"></td>
+                    <td th:text="${obj.hit.longValue()}"></td>
+                    <td th:text="${obj.regdate}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+
+    <script th:inline="javascript" type="text/javascript">
+        function formAction1(code) {
+            const form = document.getElementById('form');
+            if(code === 1) {
+                form.action = /*[[@{/board2/updatebatch.pknu}]]*/'';
+            }
+            else if(code === 2) {
+                form.action = /*[[@{/board2/deletebatch.pknu}]]*/'';
+            }
+            form.submit();
+        }
+    </script>
+
+</body>
+</html>

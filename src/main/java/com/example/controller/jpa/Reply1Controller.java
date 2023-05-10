@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.jpa;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
