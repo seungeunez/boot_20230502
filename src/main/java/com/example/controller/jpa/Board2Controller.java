@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,24 +40,35 @@ public class Board2Controller {
     @GetMapping(value = "/selectlist.pknu")
     public String selectListGET(Model model, 
                             @RequestParam(name = "text", defaultValue = "") String text, 
-                            @RequestParam(name = "page", defaultValue = "1") int page,
+                            @RequestParam(name = "page", defaultValue = "0") int page,
                             @RequestParam(name = "type", defaultValue = "title") String type ){
 
         try {
 
+            if(page == 0) { // ? 가 없으면
+                return "redirect:/board2/selectlist.pknu?page=1&type=title&text=";
+            }
 
-            /* 게시글 수 */
-            long total = bRepository.countByTitleContaining(text);
+            
+            PageRequest pageRequest = PageRequest.of((page-1), 10);
+            
+            
+
             
             /* -----검색------- */
 
             //2. 타입에 따라서 다른 메소드 호출
 
-            List<Board> list = bRepository.findByTitleIgnoreCaseContainingOrderByNoDesc(text);
+            List<Board> list = bRepository.findByTitleIgnoreCaseContainingOrderByNoDesc(text, pageRequest);
+            long total = bRepository.countByTitleIgnoreCaseContainingOrderByNoDesc(text); //게시글 수 (제목)
+
             if(type.equals("content")){
-                list = bRepository.findByContentIgnoreCaseContainingOrderByNoDesc(text);
+                list = bRepository.findByContentIgnoreCaseContainingOrderByNoDesc(text, pageRequest);
+                total = bRepository.countByContentIgnoreCaseContainingOrderByNoDesc(text);
+                
             }else if(type.equals("writer")){
-                list = bRepository.findByWriterIgnoreCaseContainingOrderByNoDesc(text);
+                list = bRepository.findByWriterIgnoreCaseContainingOrderByNoDesc(text, pageRequest);
+                total = bRepository.countByWriterIgnoreCaseContainingOrderByNoDesc(text);
             }
 
             /* -------------- */
@@ -67,7 +79,7 @@ public class Board2Controller {
             //List<Board> list = bRepository.findAllByOrderByNoDesc(); //목록 전체 조회만 했을 때
 
             model.addAttribute("list", list);
-            model.addAttribute("pages", (total-1)/10+1); 
+            model.addAttribute("pages", (total-1)/10+1); //10개
             
             return "/board2/selectlist";
 

@@ -3,7 +3,7 @@ package com.example.repository;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,20 +35,20 @@ public interface BoardRepository extends JpaRepository<Board, BigDecimal> {
 
     //페이지네이션
 
-    // public List<Board> findByTitleIgnoreCaseContainingOrderByNoDesc(String title, Pageable pageable); 
+    public List<Board> findByTitleIgnoreCaseContainingOrderByNoDesc(String title, Pageable pageable); 
 
-    // public List<Board> findByWriterIgnoreCaseContainingOrderByNoDesc(String writer, Pageable pageable);
+    public List<Board> findByWriterIgnoreCaseContainingOrderByNoDesc(String writer, Pageable pageable);
 
-    // public List<Board> findByContentIgnoreCaseContainingOrderByNoDesc(String content, Pageable pageable);
+    public List<Board> findByContentIgnoreCaseContainingOrderByNoDesc(String content, Pageable pageable);
 
 
     //총 개수
     public long countByTitleIgnoreCaseContainingOrderByNoDesc(String title); 
 
-    public long countByWriterIgnoreCaseContainingOrderByNoDesc(String writer, Pageable pageable);
+    public long countByWriterIgnoreCaseContainingOrderByNoDesc(String writer);
 
-    public long countByContentIgnoreCaseContainingOrderByNoDesc(String content, Pageable pageable);
-    
+    public long countByContentIgnoreCaseContainingOrderByNoDesc(String content);
+
 
     @Query(value="SELECT * FROM ( SELECT b1.*, ROW_NUMBER() OVER (ORDER BY no DESC) rown FROM BOARD b1 WHERE b1.title LIKE '%' || :title || '%' ) WHERE rown BETWEEN :start AND :end", nativeQuery=true)
     public List<Board> selectByTitleContainingPagenation(@Param("title") String title, @Param("start") int start, @Param("end") int end );

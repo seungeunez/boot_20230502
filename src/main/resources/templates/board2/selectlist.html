@@ -32,7 +32,7 @@
 
     <!--목록-->
     <form th:action="@{/board2/updatebatch.pknu}" method="post" id="form">
-        <table border="1" style="margin-top: 4px;">
+        <table border="1" style="margin-top: 1rem;">
             <thead>
                 <tr>
                     <th></th>
@@ -55,6 +55,12 @@
                 </tr>
             </tbody>
         </table>
+
+        <!--페이지네이션-->
+        <th:block th:each="num : ${#numbers.sequence(1, pages)}"> <!--페이지?-->
+            <a th:href="@{/board2/selectlist.pknu( page=${num}, type=${param.type}, text=${param.text})}" th:text="${num}"></p>
+        </th:block>
+
     </form>
 
 
