@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>등록</title>
+</head>
+<body>
+
+    <h3>등록</h3>
+    <hr />
+    
+    <form th:action="@{/restaurant1/insert.food}" method="post">
+        전화번호 <input type="text" name="phone" /><br />
+        가게명 <input type="text" name="name" /><br />
+        주소 <input type="text" name="address" /><br />
+        <!-- 종류 <input type="text" name="type"> <br/> -->
+        <select name="type" class="form-select" id="inputGroupSelect02">
+            <option value="한식">한식</option>
+            <option value="중식">중식</option>
+            <option value="양식">양식</option>
+            <option value="일식">일식</option>
+            <option value="퓨전">퓨전</option>
+        </select>
+        <input type="submit" value="등록">
+    </form>
+
+    
+</body>
+</html>

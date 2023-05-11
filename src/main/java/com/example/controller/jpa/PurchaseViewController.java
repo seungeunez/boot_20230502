@@ -11,9 +11,8 @@ import com.example.entity.PurchaseView;
 import com.example.repository.PurchaseViewRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Controller
 @RequestMapping(value = "/purchaseview")
 @RequiredArgsConstructor

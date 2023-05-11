@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체목록</title>
+</head>
+<body>
+    <h3>회원목록(projection)</h3>
+    
+    <table border="1" style="margin-top: 5px;">
+        <thead>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>나이</th>
+        </thead>
+        <tbody>
+            <tr th:each="obj : ${list}">
+                <td th:text="${obj.id}"></td>
+                <td th:text="${obj.name}"></td>
+                <td th:text="${obj.age}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴관리</title>
+</head>
+<body>
+    <h3>메뉴관리</h3>
+
+    <a th:href="@{/restaurant1/selectlist.food}"><button>식당목록</button></a>
+
+    <hr />
+
+    식당 번호: <label th:text="${rno}"></label> <br />
+    식당연락처: <label th:text="${rphone}"></label> <br />
+
+    <hr />
+
+
+    <h3>현재 등록된 메뉴 목록</h3>
+    <table border="1" style="margin-top: 1rem;">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>메뉴명</th>
+                <th>가격</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="obj : ${list}">
+                <td th:text="${obj.no}"></td>
+                <td th:text="${obj.name}"></td>
+                <td th:text="${obj.price}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr />
+    
+    <h3>메뉴등록</h3>
+    <form th:action="@{/menu1/insert.food}" method="post" enctype="multipart/form-data">
+        메뉴명 <input type="text" name="name" /> <br />
+        가격 <input type="number" name="price" /> <br />
+        식당 번호 <input type="text" name="restaurant1.no" th:value="${rno}"  readonly/> <br />
+        식당 연락처 <input type="text" name="restaurant1.phone" th:value="${rphone}"  readonly/> <br />
+        이미지 <input type="file" name="tmpFile"/> <br />
+        <input type="submit" value="등록" style="margin-top: 5px;" /> 
+    </form>
+
+</body>
+</html>

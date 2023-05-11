@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.entity.Address1;
+import com.example.entity.Address1Projection;
 import com.example.entity.Member1;
 import com.example.repository.Address1Repository;
 import com.example.repository.Member1Repository;
@@ -32,6 +33,39 @@ public class Address1Controller {
     final String format = "Address1Controller => {}";
     final Address1Repository a1Repository; //저장소 객체
     final Member1Repository m1Repository;
+
+/* -------------------------------------------------- */
+
+    //projection 사용
+    //회원주소전체조회
+    //127.0.0.1:9090/ROOT/address1/selectlistprojection.do
+    @GetMapping(value = "/selectlistprojection.do")
+    public String selectlistproejctionGET(Model model){
+
+        try {
+
+            List<Address1Projection> list = a1Repository.findAllByOrderByNoDesc(Address1Projection.class); // 제너릭 사용시 타입설정 해줘야함  Address1Projection.class
+
+            //List<Address1> list = a1Repository.findAllByOrderByNoDesc(Address1.class); // 이런 타입으로도 가능함
+
+            for(Address1Projection obj : list){
+
+                log.info(format, obj.getNo() + ", " + obj.getAddress() + ", " + obj.getMember1().getId() +  ", " + obj.getMember1().getName());
+
+            }
+
+            model.addAttribute("list", list);
+
+            return "/address1/selectlistprojection";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+        
+    }
+
+
 
 
 

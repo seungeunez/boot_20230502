@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.entity.Board1View;
 import com.example.repository.Board1ViewRepository;
 
-import antlr.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

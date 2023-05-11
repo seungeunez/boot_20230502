@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.entity.Member1;
+import com.example.entity.Member1Projection;
 import com.example.repository.Member1Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,38 @@ public class Member1Controller {
 
     final String format = "Member1Controller => {}";
     final Member1Repository m1Repository; //저장소 객체 ////원래는 Service 써야하는데 생략했음
+
+
+/* ----------------------------------------------------------------- */
+
+    //projection 이용한 member1
+    //127.0.0.1:9090/ROOT/member1/selectlistprojection.do
+    @GetMapping(value = "/selectlistprojection.do")
+    public String selectlistprojectionGET(Model model){
+        try {
+
+            List<Member1Projection> list = m1Repository.findAllByOrderByIdAsc();
+
+            //log.info(format, list.toString()); => 이상하게 나와서 반복문 돌려서 출력해야함 => projection은 toString이 안됨
+
+            for( Member1Projection obj : list){
+                log.info("Member1Controller Projection => {}", obj.getId() + "," + obj.getName() + "," + obj.getAge());
+            }
+
+            model.addAttribute("list", list); //이거 안주면 값이 view로 안넘어감 (안넘어가면 화면에 안보여짐)
+
+            return "/member1/selectlistprojection";
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return "redirect:/home.do";
+
+        }
+    }
+
+
+
 
 /* ----------------------------------------------------------------- */
 
