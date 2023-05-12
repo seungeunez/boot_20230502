@@ -13,10 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.entity.Member1;
 import com.example.entity.Member1Projection;
+import com.example.entity.MemberInfo1;
 import com.example.repository.Member1Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Slf4j
@@ -193,6 +196,58 @@ public class Member1Controller {
     }
     
 /* ----------------------------------------------------------------- */
+
+    //memberinfo1 포함한 회원가입
+    //127.0.0.1:9090/ROOT/member1/join1.do
+    @GetMapping(value="/join1.do")
+    public String join1GET() {
+        try {
+
+            return "/member1/join1";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @PostMapping(value="/join1.do")
+    public String join1POST(@ModelAttribute MemberInfo1 memberInfo1, @ModelAttribute Member1 member1) {
+        
+        
+        try {
+            
+
+            // Member1(id=nn, pw=a, name=이름, age=26, regdate=null, memberinfo=null) //서로 다른건 null값이 들어가기 때문에 set() 해서 넣어줌
+            log.info("회원가입 member1 => {}", member1);
+            member1.setMemberInfo1(memberInfo1);    //null값인 부분 추가
+            // MemberInfo1(id1=null, member1=null, info=정보, regdate=null)
+            log.info("회원가입 memberinfo1 => {}",memberInfo1);
+            memberInfo1.setMember1(member1);    //null값인 부분 추가
+
+            // MemberInfo1(id1=null, member1=Member1(id=zz, pw=a, name=이름, age=26, regdate=null), info=정보, regdate=null) 이렇게 됨
+            log.info("회원가입 memberinfo1 => {}",memberInfo1);
+
+            m1Repository.save(member1); // 두개의 테이블에 값이 동시에 추가됨
+
+            return "redirect:/member1/join1.do";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+    
+
+    // 결론은 one to one 안쓰는게 좋다 // 컬럼은 반으로 쪼갠 느낌이라 구지비?
+    
+
+    
+/* ----------------------------------------------------------------- */
+
+
+
+
 
 
 

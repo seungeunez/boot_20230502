@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,6 +49,11 @@ public class Member1 {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp //추가시에만 날짜 정보 저장
     private Date regdate;
+
+
+    @ToString.Exclude
+    @OneToOne(mappedBy = "member1", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private MemberInfo1 memberInfo1;
 
 
     //EAGER => member1조회시 address1을 조인하여 보여줌 //다 읽을 때 까지 느림

@@ -14,7 +14,7 @@
 
     <form th:action="@{/restaurant1/selectlist.food}" method="get" th:object="${search}">
         
-        <input type="text" name="page" value="1" readonly/> <!--page 값은 1로 지정해뒀음 page=1로 주소창에 뜸-->
+        <input type="hidden" name="page" value="1" readonly/> <!--page 값은 1로 지정해뒀음 page=1로 주소창에 뜸-->
         <select th:field="${search.type}">
             <option th:each="tmp, idx : ${search.typeCode}" th:value="${tmp}" th:text="${search.typeName[idx.index]}"></option> <!--th:text="${search.typeName[idx.index]}" 상호명, 주소 이런거 보이게 하는데 이상한 문자 계속 떳었었음-->
         </select>
