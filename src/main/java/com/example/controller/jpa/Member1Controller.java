@@ -216,14 +216,15 @@ public class Member1Controller {
         
         
         try {
-            
+
+            // MemberInfo1(id1=null, member1=null, info=정보, regdate=null)
+            log.info("회원가입 memberinfo1 => {}",memberInfo1);
+            memberInfo1.setMember1(member1);    //null값인 부분 추가
 
             // Member1(id=nn, pw=a, name=이름, age=26, regdate=null, memberinfo=null) //서로 다른건 null값이 들어가기 때문에 set() 해서 넣어줌
             log.info("회원가입 member1 => {}", member1);
             member1.setMemberInfo1(memberInfo1);    //null값인 부분 추가
-            // MemberInfo1(id1=null, member1=null, info=정보, regdate=null)
-            log.info("회원가입 memberinfo1 => {}",memberInfo1);
-            memberInfo1.setMember1(member1);    //null값인 부분 추가
+            
 
             // MemberInfo1(id1=null, member1=Member1(id=zz, pw=a, name=이름, age=26, regdate=null), info=정보, regdate=null) 이렇게 됨
             log.info("회원가입 memberinfo1 => {}",memberInfo1);
