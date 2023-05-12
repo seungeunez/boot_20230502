@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -46,7 +48,10 @@ public class Restaurant1 {
     @Column(updatable = false)
     private Date regdate;
 
-    @OneToMany(mappedBy = "restaurant1")
+    //cascade => 외래키가 존재해도 강제로 항목을 지움.
+    //ex) 메뉴가 있어도 삭제가 됨
+    @ToString.Exclude
+    @OneToMany(mappedBy = "restaurant1", cascade = CascadeType.REMOVE)
     List<Menu1> menuList = new ArrayList<>();
 
     

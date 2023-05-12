@@ -175,25 +175,30 @@ public class Menu1Controller {
 
 
     @PostMapping(value="/update.food")
-    public String updatePOST(
-                                @RequestParam(name = "no") long no, 
-                                @RequestParam(name = "rno") long rno, 
-                                @RequestParam(name = "rphone") String rphone, 
-                                @RequestParam(name = "tmpFile") MultipartFile file,
-                                @ModelAttribute Menu1 menu1 ) { 
+    public String updatePOST( @RequestParam(name = "tmpFile") MultipartFile file, @ModelAttribute Menu1 menu1 ) { 
 
         try {
             
-            log.info(menu1.toString());
+            log.info("메뉴 => {}",menu1.toString());
+            log.info("파일 => {}",file.toString());
 
             //기존의 데이터를 읽어서 필요한 부분 변경후 다시 저장하기
-            Menu1 obj = m1Repository.findById(BigInteger.valueOf(no)).orElse(null);
+            Menu1 obj = m1Repository.findById(menu1.getNo()).orElse(null);
 
+            //저장하면 자동으로 DB에 변경됨 (자동commit)
             obj.setName(menu1.getName());
+            obj.setPrice(menu1.getPrice());
 
-            m1Repository.save(menu1);
+            if(file.isEmpty() == false){  //파일 객체는 만들어져 있어서 isEmpty()로 구분해야함
+                obj.setImagedata(file.getBytes());
+                obj.setImagesize(BigInteger.valueOf(file.getSize()));
+                obj.setImagetype(file.getContentType());
+                obj.setImagename(file.getOriginalFilename());
+            }
+            
+            m1Repository.save(obj);
 
-            return "redirect:/menu1/insert.food?rno=" + rno + "&rphone=" + rphone;
+            return "redirect:/menu1/insert.food?rno=" + menu1.getRestaurant1().getNo() + "&rphone=" + menu1.getRestaurant1().getPhone();
 
         } catch (Exception e) {
             e.printStackTrace();

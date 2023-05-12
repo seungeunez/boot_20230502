@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Search;
 import com.example.entity.Restaurant1;
+import com.example.entity.Restaurant1ID;
 import com.example.repository.Restaurant1Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 
 @Controller
@@ -112,8 +114,26 @@ public class Restaurant1Controller {
 /* ----------------------------------------------- */
 
 
-    //
-    
+    //삭제
+    @PostMapping(value="/delete.food")
+    public String deletePOST(@ModelAttribute Restaurant1ID obj) { //복합키가 있어서 Restaurant1이 아닌 Restaurant1ID로 
+        try {
+
+            log.info("삭제 => {}", obj.toString());
+
+            r1Repository.deleteById(obj);
+
+            return "redirect:/restaurant1/selectlist.food";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+
+
+/* ----------------------------------------------- */
 
 
     

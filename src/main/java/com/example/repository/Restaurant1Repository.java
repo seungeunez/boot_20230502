@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.Restaurant1;
+import com.example.entity.Restaurant1ID;
 
 
 @Repository
-public interface Restaurant1Repository extends JpaRepository<Restaurant1, String> {
+public interface Restaurant1Repository extends JpaRepository<Restaurant1, Restaurant1ID> { //복합키가 들어가있어서 String이 아니라 Restaurant1ID
 
     //전체 조회
     public List<Restaurant1> findAllByOrderByNoDesc();
