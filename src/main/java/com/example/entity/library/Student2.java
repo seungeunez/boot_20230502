@@ -27,6 +27,9 @@ public class Student2 {
     @Id
     private String email;
 
+    //암호
+    private String password;
+
     //이름
     private String name;
 

@@ -26,6 +26,7 @@ public class MemberController {
 
 /*----------------------------------------------------------------------*/
 
+    //회원가입
     @GetMapping(value="/join.do")
     public String joinGET() {
         log.info("member=>{}", "joinGET"); //사용할 때 @Slf4j import해줬는지 확인
@@ -47,6 +48,7 @@ public class MemberController {
 
 /*----------------------------------------------------------------------*/
 
+    //로그인
     @GetMapping(value="/login.do")
     public String loginGET() {
         return "login";

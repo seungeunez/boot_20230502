@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서관 등록</title>
+</head>
+<body>
+    <h3>도서관 등록</h3>
+    <a th:href="@{/library2/selectlist.do}" ><button>목록</button></a>
+    <hr />
+    <form th:action="@{/library2/insert.do}" method="post">
+        이름 <input type="text" name="name" value="도서관"/><br /> 
+        주소 <input type="text" name="address" value="부산"/><br />
+        전화번호 <input type="text" name="phone" value="070-0000-0005" /><br />
+        <input type="submit" value="등록"/>
+    </form>
+</body>
+</html>

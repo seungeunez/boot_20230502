@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서관 목록</title>
+</head>
+<body>
+    <h3>도서관 목록</h3>
+
+    <a th:href="@{/library2/insert.do}" ><button>등록</button></a>
+
+    <hr />
+
+    <table border="1" style="margin-top: 1rem;">
+        <thead>
+            <tr >
+                <th>코드</th>
+                <th>도서관명</th>
+                <th>주소</th>
+                <th>전화번호</th>
+                <th>등록일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--for(Library2 obj : list) { } == <tr th:each="obj : ${list}"> 같음-->
+            <tr th:each="obj : ${list}">
+                <td th:text="${obj.code}"></td> <!--${obj.getCode()} 해도 됨 근데 너무 기니깐 .code로 합의 봄-->
+                <td th:text="${obj.name}"></td>
+                <td th:text="${obj.address}"></td>
+                <td th:text="${obj.phone}"></td>
+                <td th:text="${obj.regdate}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
