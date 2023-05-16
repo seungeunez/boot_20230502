@@ -34,7 +34,7 @@ public class SecurityConfig {
     
     
     @Bean   // 객체를 생성함. (자동으로 호출됨.)
-    @Order(value = 1) // 순서를 먼저 설정
+    @Order(value = 1) // 순서를 먼저 설정 //가장먼저 처리
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
         log.info("SecurityConfig => {}", "start filter chain2");
 
@@ -43,9 +43,9 @@ public class SecurityConfig {
         // 127.0.0.1:9090/ROOT/student2/logout.do
         // 위의 두개의 주소만 필터함.
         http.antMatcher("/student2/login.do")
-            .antMatcher("/student2/loginaction.do")
-            .antMatcher("/student2/logout.do")
-            .authorizeRequests().anyRequest().authenticated().and();
+            .antMatcher("/student2/loginaction.do") 
+            .authorizeRequests()
+            .anyRequest().authenticated().and();
 
         // 로그인 처리
         http.formLogin()
@@ -56,13 +56,8 @@ public class SecurityConfig {
             .defaultSuccessUrl("/student2/home.do")
             .permitAll();
 
-        // 로그아웃 처리        
-        http.logout()
-            .logoutUrl("/student2/logout.do")
-            .logoutSuccessUrl("/home.do")
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .permitAll();
+        //로그아웃 처리는 한번만 하면 됨 밑에서 굳이 여기서 다 안해도 됨
+
 
         http.userDetailsService(student2TableService);
         return http.build();
@@ -103,7 +98,6 @@ public class SecurityConfig {
             .successHandler(new CustomerLoginSuccessHandler()) //로긘 성공했을 때 직책에 맞게..? 홈으로 이동
             //.defaultSuccessUrl("/home.do") //로긘 성공했을 때 // 로그인하고 나서 어디로 갈건지 물어보는거임 // 로긘하고 홈으로 갈거임~
             .permitAll(); 
-
 
 
         //로그아웃 처리 (GET은 안됨 반드시 POST로 호출해야함)
