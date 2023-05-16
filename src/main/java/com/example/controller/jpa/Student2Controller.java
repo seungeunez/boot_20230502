@@ -1,7 +1,10 @@
 package com.example.controller.jpa;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 
+
 @Controller
 @RequestMapping(value = "/student2")
 @RequiredArgsConstructor
@@ -24,6 +28,20 @@ public class Student2Controller {
 
     final Student2Repository s2Repository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
+
+    //홈
+    @GetMapping(value="/home.do")
+    public String homeGET(@AuthenticationPrincipal User user, Model model) {
+        try {
+            model.addAttribute("user", user);
+            return "/student2/home";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirecct:/home.do"; 
+        }
+    }
+    
 
 /* ------------------------------------------------------------------------ */
 
@@ -73,9 +91,11 @@ public class Student2Controller {
         }
     }
 
-    
+
 
     
+
+/* ------------------------------------------------------------------------ */
 
     
 }

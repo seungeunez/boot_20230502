@@ -17,10 +17,12 @@ import com.example.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
+//member테이블과 연동되는 서비스
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SecuirtyServiceImpl implements UserDetailsService {
+public class SecurityServiceImpl implements UserDetailsService {
     
     final String format = "SecurityServiceImpl => {}";
     final MemberMapper memberMapper;

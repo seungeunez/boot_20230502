@@ -7,11 +7,24 @@
     <title>홈페이지</title>
 </head>
 <body>
-    <h3>HOME</h3>
+    <h3>학생2 홈화면</h3>
 
-    <a th:href="@{/student2/insert.do}"><button>회원가입</button></a>
-    <a th:href="@{/student2/login.do}"><button>로그인</button></a>
+    <!-- 
+    태그 display => block, inline, inline-block
+    block => p, div 태그 한칸 내려옴
+    inline => label.. 가로로만 width 속성이 안됨
+    inline-block => 가로로 배치 width속성 설정이 됨
+    -->
 
+    <div th:if="${user != null}">
+        <p th:text="${user}" style="display: inline-block"></p>
+        <p th:text="${user.username}"></p>
+    
+        <form th:action="@{/student2/logout.do}" method="post"> <!--로그아웃 처리는 시큐리티가 알아서 해주기 때문에 postmapping을 따로 안만들어도 된다-->
+            <input type="submit" value="로그아웃">
+        </form>
+    </div>
+    
     <hr />
 
     
