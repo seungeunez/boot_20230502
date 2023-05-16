@@ -32,7 +32,7 @@ public class Student2Controller {
 
     //홈
     @GetMapping(value="/home.do")
-    public String homeGET(@AuthenticationPrincipal User user, Model model) {
+    public String homeGET(@AuthenticationPrincipal User user, Model model) { //@AuthenticationPrincipal User user 세션에서 거내기
         try {
             model.addAttribute("user", user);
             return "/student2/home";

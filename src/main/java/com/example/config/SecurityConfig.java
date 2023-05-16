@@ -51,7 +51,7 @@ public class SecurityConfig {
         http.formLogin()
             .loginPage("/student2/login.do")
             .loginProcessingUrl("/student2/loginaction.do")
-            .usernameParameter("email") //login.html의 email name값
+            .usernameParameter("id") //login.html의 email name값
             .passwordParameter("password") // login.html의 password name값
             .defaultSuccessUrl("/student2/home.do")
             .permitAll();
