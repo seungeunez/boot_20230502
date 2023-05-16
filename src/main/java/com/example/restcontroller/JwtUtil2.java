@@ -39,7 +39,7 @@ public class JwtUtil2 {
 
         //2. 토큰에 포함시킬 사용자 정보들
         Map<String, Object> claimsMap = new HashMap<>();
-        claimsMap.put("id", id); //아이디를 토큰에 넣음
+        claimsMap.put("id", id); //아이디를 토큰에 넣음 //이부분이 기본키가 들어갈 자린지 무튼 원랜 email넣었는데 다른곳에서도 쓰는것같으니 일단 id로 해둠 대신 id로하면 html에 name값이 id여야함 security부분도 id여야함
         claimsMap.put("name", name); //이름을 토큰에 넣음
 
 
