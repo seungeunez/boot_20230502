@@ -160,31 +160,40 @@ public class RestStudent2Controller {
     //원래는 Put을 써야함 수정이다보니
     //회원정보 수정 => 토큰을 주세요. 검증해서 성공하면 정보수정을 진행
     @PostMapping(value = "/update.json")
-    public Map<String, Object> updatePOST(@RequestHeader(name = "token") String token){
+    public Map<String, Object> updatePOST(@RequestHeader(name = "token") String token, @RequestBody Student2 student2){
 
         Map<String, Object> retMap = new HashMap<>();
 
         try {
 
             //1. 토큰을 받는다
-            log.info("{}", token);
+            log.info("토큰 => {}", token);
+            log.info("변경 => {}", student2.toString());
 
             //2. 실패시 전달값
             retMap.put("status", 0);
 
+            //토큰
+            Student2 obj = jwtUtil2.checkJwt(token);
+
             //3. 토큰을 검증
-            if( jwtUtil2.checkJwt(token) == true ){ //검증 성공하면 정보 수정으로
+            if( obj != null ){ //검증 성공하면 정보 수정으로
 
-                //4. 정보 수정
+                //4. 정보 수정 => JwtUtil2에서 미리 이메일, 이름 ..
 
+                //4-1. 이메일을 이용해서 기존 데이터 가져오기
+                Student2 obj1 = s2Repository.findById(obj.getEmail()).orElse(null);
+
+                //4-2. obj1에 필요한 정보 저장하기
+                obj1.setName(student2.getName());
+                obj1.setPhone(student2.getPhone());
+
+                //4-3. obj1을 다시 저장하기
+                s2Repository.save(obj1);
 
 
                 retMap.put("status", 200);
             }
-            
-
-            
-            
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -10,6 +10,8 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.stereotype.Component;
 
+import com.example.entity.library.Student2;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -69,8 +71,9 @@ public class JwtUtil2 {
 
     
 
+    //Student2 기준으로 
     // 토큰에 대해서 검증하고 데이터를 추출하는 메소드
-    public boolean checkJwt(String token) throws Exception{
+    public Student2 checkJwt(String token) throws Exception{
 
         try {
 
@@ -83,22 +86,31 @@ public class JwtUtil2 {
                                 .parseClaimsJws(token)
                                 .getBody();
 
+
             System.out.println("추출한 아이디 =>" + claims.get("id")); 
             System.out.println("추출한 이름 =>" + claims.get("name"));
 
-            return true;
+            //이메일과 이름을 발행해서 8시간 유효?하게?
+
+            Student2 student2 = new Student2();
+
+            //형변환필요함 Object타입이라서 //이메일과 이름만 있음
+            student2.setEmail( (String) claims.get("id")); 
+            student2.setName( (String) claims.get("name"));
+
+            return student2;
 
         } catch (ExpiredJwtException e1) { //상세한(세밀한) 오류일수록 위쪽에 배치되어야 함
             System.err.println("만료시간 종료" + e1.getMessage());
-            return false;
+            return null;
         } 
         catch (JwtException e2) {
             System.err.println("토큰오류" + e2.getMessage());
-            return false;
+            return null;
         }
         catch (Exception e) {
             System.out.println("e1과 e2 오류 아닌 모든 오류" + e.getMessage());
-            return false;
+            return null;
         }
         
     }
