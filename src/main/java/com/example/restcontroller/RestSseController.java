@@ -3,8 +3,6 @@ package com.example.restcontroller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.print.attribute.standard.Media;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

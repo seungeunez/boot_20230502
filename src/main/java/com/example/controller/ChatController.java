@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 public class ChatController {
 
+
     @GetMapping(value = "/chat.do")
     public String chatGET(){
         return "chat";
