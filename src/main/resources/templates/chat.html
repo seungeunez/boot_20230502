@@ -6,9 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chat</title>
 </head>
+
+
 <body>
 
     <h3>chat</h3>
+
+    <div>
+        <input type="text" id="input"/>
+        <button id="send" onclick="sendMessage()">send</button>
+        <div id="messages" style="border:1px solid #cccccc;"></div>
+    </div>
+
+    <script>
+
+        //함수가 아니면 바로실행됨
+        //스크립트는 크롬내부에 있는 엔진이 실행하는거임
+
+        //스크립트는 내부적으로 script부분을 따로?
+        //스크립트가 완벽해야 돌아감 하나라도 오류나면 에러뜸
+        //스크립트에서 오류나면 크롬에서 확인할 것
+        //console.log('aaaa'); //크롬 콘솔창에서 확인가능
+        //System.out.print("aaa"); //자바 콘솔창에서 확인가능
+
+        //id는 고유해야함 
+
+        // const str = "hello";
+        // const a = "aa"+str+"aa"; //aahelloaa
+        // const b = `aa${str}aa`; //aahelloaa
+
+
+        //const id = [[${userid}]]; //우리는 넘어오는 값을 받아야 하니깐 이렇게 할 것
+
+
+        //고유한 아이디 만들기
+        const id = `ds210_${new Date().getTime()}`;
+        console.log(id);
+
+        //접속하기 => 내가 전달한 아이디를 map 변수에 보관(2분간)
+        const eventSource = new EventSource(`/ROOT/api/sse/subscribe?id=${id}`);
+        console.log(eventSource);
+
+        //callback 서버에서 호출시키는 거임
+        //collback1
+        eventSource.onopen = (e) => {
+            console.log('onopen', e);
+        };
+
+        //collback2
+        eventSource.onmessage = (e) => {
+            const div = document.querySelector("#messages");
+            div.innerHTML = `${e.data}<br />` + div.innerHTML;
+            console.log('onmessage', e.data);
+
+        };
+
+        //collback3
+        eventSource.onerror = (e) => {
+            console.log('onerror', e);
+        };
+
+
+        const sendMessage = () => {
+            const msg = document.querySelector('#input').value;
+            fetch(`/ROOT/api/sse/publish?message=${msg}`); //메시지보내기
+        };
+
+
+        //버튼을 누를 때만 메세지가 가야함
+        // const sendMessage = () => {
+        //     // const msg = document.getElementById('input');
+        //     // const msg = document.getElementsByClassName('abc');
+
+        //     const msg = document.querySelector('#input').value; // #이면 id .이면 class 굳이 굳이 getElement~ 안해주고 querySelector로 전부 쓸 수 있음
+        //     fetch(`/ROOT/api/sse/publish?message=${msg}`); // 메시지 보내기 //여기서 메시지 보내면 콜백함 
+
+        // };
+
+        
+
+
+        // //이게 요즘 문법(함수)
+        // const func = () => {
+
+        // };
+
+        // //위나 아래나 같은거임
+        // function func1() {
+
+        // };
+
+        
+
+    </script>
 
 </body>
 </html>

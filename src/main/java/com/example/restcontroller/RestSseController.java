@@ -36,7 +36,7 @@ public class RestSseController {
     public SseEmitter subscribe(@RequestParam(name = "id") String id) {
 
         //sse객체 생성
-        SseEmitter emitter = new SseEmitter(1000L * 120); // 1초(1000) * 2분(120) //2분동안 접속 유지 이후엔 끊김 //접속할 때 마다 객체만들어지고 clients에 보관됨
+        SseEmitter emitter = new SseEmitter(1000L * 1200); // 1초(1000) * 20분(1200) //20분동안 접속 유지 이후엔 끊김 //접속할 때 마다 객체만들어지고 clients에 보관됨
         clients.put(id, emitter);
 
         //클라이언트 연결 중지 및 완료되면 clients변수에서 정보 제거
