@@ -70,11 +70,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         log.info("SecurityConfig => {}", "start filter chain1");
+
         //로그인, 로그아웃, 권한설정 여기서 설정해야함
 
         // 권한 설정
         http.authorizeRequests()
-            .antMatchers("/customer/join.do").permitAll() //고객 회원가입 페이지는 접근 가능하게 
+            .antMatchers("/customer/join.do").permitAll() //고객 회원가입 페이지는 접근 가능하게 //로그인부분도 넣어야함(원래는)
             .antMatchers("/seller/join.do").permitAll() //판매자 회원가입 페이지는 접근 가능하게 
             .antMatchers("/admin/join.do").permitAll() //관리자 회원가입 페이지는 접근 가능하게
 
