@@ -22,6 +22,10 @@ public class LogAspect {
 
     //interceptor와는 전혀 다르다
 
+    //여러개 쓸 수 있음 내가 만든 파일 기반으로 메소드가 돌아감
+    //메소드 여러개 생성 가능해 밑에 계속 만들어도 돼
+    
+
     //com.example.controller의 모든Controller의 모든메소드 반응
     //com.example.repository 모든Repository의 모든메소드 반응
     @Around("execution(* com.example.controller.jpa.*Controller.*(..)) or execution(* com.example.repository.*Repository.*(..))" )
