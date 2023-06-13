@@ -4,6 +4,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
@@ -27,7 +29,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling //스케쥴링 사용
 
 
-public class Boot20230428Application {
+public class Boot20230428Application extends SpringBootServletInitializer{
+
+
+	//상속받아서 override했음 //배포때문에 한거임
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		
+		return application.sources(Boot20230428Application.class);
+
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Boot20230428Application.class, args);

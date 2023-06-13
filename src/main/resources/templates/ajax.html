@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button th:onclick="init()">버튼누르면 함수 호출</button>
+
+    <select th:onchage="init()"></select>
+
+    <!--rest로 만든 controller는 반드시 script로만 자료를 처리할 수 있다-->
+    <script th:lnline="javascript">
+        function init() { //함수는 자동으로 호출되지 않는다. //버튼눌러서 함수 호출하면 form태그로 보내버리는것같음
+
+            const url = [[@{/api/test1/select.do(aaa='a')}]];
+            const headers = {"Content-Type" : "application/json"};
+            const { data } = await axios.get(url, {headers:headers});
+            console.log('반환되는 결과', data)
+
+            const url = /*[[@{/api/test1/insert.do}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = {id:"aaa", name:"bbb"};
+            const { data } = await axios.post(url, body, { headers:headers });
+            console.log('반환되는 결과', data);
+
+            const url = /*[[@{/api/test1/update.do}]]*/"";
+            const body = {id:"aaa", name:"bbb"};
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.put(url, body, { headers:headers });
+            console.log('반환되는 결과', data);
+
+            const url = /*[[@{/api/test1/delete.do}]]*/"";
+            const body = {id:"aaa", name:"bbb"};
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.delete(url, { headers:headers, data:body });
+            console.log('반환되는 결과', data);
+
+        }
+
+        init(); //수동으로 함수 호출해야함 //이게 없으면 눌러야만 처리되게 만들어야함 (버튼이겠지)
+
+
+
+    </script>
+</body>
+</html>
